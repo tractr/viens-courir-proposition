@@ -128,8 +128,47 @@
     border:2px solid var(--border);border-radius:var(--r);padding:16px 22px;margin-top:16px;box-shadow:4px 4px 0 var(--border-light)}
   .tot .mut{color:rgba(255,255,255,.82)}
   .tot b{font-family:var(--display);font-size:19px;letter-spacing:-.01em}
-  .erd{font-family:var(--mono);font-size:12.5px;line-height:1.7;white-space:pre;overflow:auto;
-    background:var(--card-bg);border:2px solid var(--border);border-radius:var(--r);padding:18px;color:var(--ink2);box-shadow:var(--sh)}
+  /* schéma d'architecture interactif : sources -> plateforme -> base */
+  .chip{font-family:var(--mono);font-size:11px;background:var(--acc-soft);border:1.5px solid var(--border);border-radius:4px;padding:3px 8px;color:var(--ink);white-space:nowrap}
+  .chip b{font-family:var(--display);font-weight:700}
+  .flowmap{position:relative;margin:20px 0;border:2px solid var(--border);border-radius:var(--r);background:var(--card-bg);box-shadow:var(--sh);padding:18px;overflow:hidden}
+  .fm-hint{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:12px}
+  .fm-hint b{color:var(--acc);font-family:var(--display)}
+  .fm-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+  .fm-grid{position:relative;z-index:2;display:grid;grid-template-columns:184px 1fr;gap:56px;align-items:center}
+  .fm-sources{display:flex;flex-direction:column;gap:14px}
+  .fm-node{background:var(--card-bg);border:2px solid var(--border);border-radius:var(--r);box-shadow:2px 2px 0 var(--border-light)}
+  .fm-src{padding:11px 13px;font-family:var(--display);font-weight:700;font-size:13.5px;cursor:help;transition:transform .12s,box-shadow .12s,background .12s,opacity .12s}
+  .fm-src small{display:block;font-family:var(--mono);font-weight:500;font-size:10px;color:var(--muted);margin-top:3px}
+  .fm-src:hover,.fm-src.hot{background:var(--acc-soft);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--border-light)}
+  .fm-src.dim{opacity:.38}
+  .fm-center{display:flex;flex-direction:column;gap:30px}
+  .fm-core{overflow:hidden;transition:box-shadow .15s}
+  .fm-core.hot{box-shadow:5px 5px 0 var(--acc-mid)}
+  .fm-core-t{background:var(--acc);color:#fff;font-family:var(--display);font-weight:700;font-size:14px;padding:10px 15px}
+  .fm-core-t small{font-family:var(--mono);font-weight:500;font-size:11px;opacity:.85;margin-left:6px}
+  .fm-zones{display:grid;grid-template-columns:1fr 1fr}
+  .fm-zone{padding:13px 15px}
+  .fm-human{background:var(--green)}
+  .fm-machine{background:var(--yellow);border-left:2px solid var(--border)}
+  .fm-zh{font-family:var(--display);font-weight:700;font-size:12.5px;margin-bottom:9px}
+  .fm-zh small{display:block;font-family:var(--mono);font-weight:500;font-size:10px;color:var(--ink);opacity:.6;margin-top:2px}
+  .fm-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .fm-zone .chip{background:rgba(255,255,255,.62);transition:transform .1s}
+  .fm-zone:hover .chip{transform:translateY(-1px)}
+  .fm-db{padding:12px 15px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:11.5px;text-align:center}
+  .fm-db b{font-family:var(--display);color:#fff}
+  .fm-tip{position:absolute;z-index:5;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+    background:var(--ink);color:#fff;font-family:var(--mono);font-size:10.5px;line-height:1.45;padding:8px 11px;border-radius:6px;max-width:220px;box-shadow:var(--sh)}
+  .fm-tip.on{opacity:1;transform:translateY(0)}
+  .fm-path{fill:none;stroke:var(--border-light);stroke-width:2;transition:stroke .12s,stroke-width .12s}
+  .fm-path.hot{stroke:var(--acc);stroke-width:3}
+  .fm-dot{fill:var(--acc)}
+  @media(max-width:620px){
+    .fm-grid{grid-template-columns:1fr;gap:24px}
+    .fm-svg{display:none}
+    .fm-zones{grid-template-columns:1fr}.fm-machine{border-left:none;border-top:2px solid var(--border)}
+  }
   .note{font-size:12.5px;color:var(--muted);font-style:italic;max-width:74ch}
   .kpicards .card{margin:0;border-top:5px solid var(--acc)}
   .kpicards .lbl{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--acc);text-transform:uppercase}
@@ -184,7 +223,7 @@
   details.fold .fold-body{padding:2px 18px 16px}
   details.fold .fold-body>:first-child{margin-top:6px}
   @media print{aside{display:none}.wrap{grid-template-columns:1fr}main{padding:0}body::before{display:none}
-    .card,.layer,.scopebox,.tiroir,table,.erd,.tot,.callout,details.fold,.startbox,.step{box-shadow:none}h2{break-after:avoid}table,.card{break-inside:avoid}}
+    .card,.layer,.scopebox,.tiroir,table,.flowmap,.fm-core,.tot,.callout,details.fold,.startbox,.step{box-shadow:none}h2{break-after:avoid}table,.card,.flowmap{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -231,7 +270,7 @@
       <div class="card"><div class="lbl">Socle</div><b style="font-size:17px">Payload + Coolify</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">Hébergé au Québec, propriété et autonomie pour Athlétisme Québec</p></div>
     </div>
 
-    <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Notre principe directeur :</b> lever les inconnues avant de figer l'estimé. Le dérisquage technique est déjà fait, pas promis. Chaque affirmation de cette proposition distingue ce qui est vérifié de ce qui reste à confirmer.</div>
+    <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Notre principe directeur :</b> lever les inconnues avant de chiffrer. C'est fait : le dérisquage technique a déjà eu lieu, pas promis. Cette proposition est donc un devis ferme, et chaque affirmation distingue ce qui est vérifié de ce qui reste à confirmer au démarrage.</div>
 
     <table>
       <tr><th scope="col">Décision de stack</th><th scope="col">Choix</th><th scope="col">Pourquoi</th></tr>
@@ -254,22 +293,39 @@
     <!-- ===== 3. ARCHITECTURE ===== -->
     <h2 id="archi"><span class="h2n">3</span>Architecture</h2>
     <p class="lead">Une décision structure tout le reste : la frontière entre ce qui est administré par un humain et ce qui est produit par la machine.</p>
-    <div class="erd">                    ┌─────────────────────────────────────────┐
-                    │        Plateforme VIENS COURIR          │
-                    │      Payload CMS 3  +  Next.js           │
-                    │                                         │
-  API Uplifter ───▶ │  membres · entitlements (droits FOMO)   │
-  (compte local     │  événements · éditions · courses · lieux│
-   + liaison)       │  séries · sentiers · partenaires        │
-                    │                                         │
-  Iskio ─────────▶  │  ┌───── collections (humain) ──────┐    │
-  (pipeline)        │  │  contenu, calendrier, sentiers   │    │
-                    │  └──────────────────────────────────┘    │
-  CSV résultats ─▶  │  ┌──── tables applicatives (machine) ┐   │
-  World Athletics ▶ │  │  résultats · scores · classements │   │
-                    │  └───────────────────────────────────┘   │
-                    └─────────────────────────────────────────┘
-                          Un seul PostgreSQL, hébergé au Québec</div>
+    <div class="flowmap" id="flowmap">
+      <div class="fm-hint">Schéma vivant : les flux circulent des sources vers la plateforme puis la base. <b>Survolez une source</b> pour voir ce qu'elle alimente.</div>
+      <svg class="fm-svg" id="fmsvg" aria-hidden="true"></svg>
+      <div class="fm-grid">
+        <div class="fm-sources">
+          <div class="fm-node fm-src" data-detail="Source d'identité des membres. Vérifie le statut, lie le compte local au numéro de membre, alimente les droits FOMO.">API Uplifter<small>membres · liaison compte</small></div>
+          <div class="fm-node fm-src" data-detail="Calendrier de référence des courses. Pipeline d'ingestion : staging, normalisation, déduplication, publication.">Iskio<small>calendrier · pipeline</small></div>
+          <div class="fm-node fm-src" data-detail="Fichiers des chronométreurs. Importés, normalisés, réconciliés au membre, puis classés.">CSV résultats<small>chronométreurs</small></div>
+          <div class="fm-node fm-src" data-detail="Tables officielles de cotation (formule quadratique). Alimentent le moteur de score et le classement.">World Athletics<small>tables de cotation</small></div>
+        </div>
+        <div class="fm-center">
+          <div class="fm-node fm-core" id="fmcore">
+            <div class="fm-core-t">Plateforme Viens Courir<small>Payload CMS 3 + Next.js</small></div>
+            <div class="fm-zones">
+              <div class="fm-zone fm-human">
+                <div class="fm-zh">Administré par un humain<small>collections Payload</small></div>
+                <div class="fm-chips">
+                  <span class="chip">événements</span><span class="chip">éditions</span><span class="chip">courses</span><span class="chip">lieux</span><span class="chip">séries</span><span class="chip">membres</span><span class="chip">sentiers</span><span class="chip">partenaires</span><span class="chip">contenu · pages</span>
+                </div>
+              </div>
+              <div class="fm-zone fm-machine">
+                <div class="fm-zh">Produit par la machine<small>tables applicatives</small></div>
+                <div class="fm-chips">
+                  <span class="chip">résultats</span><span class="chip">scores</span><span class="chip">classements</span><span class="chip">agrégats</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fm-node fm-db" id="fmdb">Un seul <b>PostgreSQL</b>, hébergé au Québec. Export complet (pg_dump) = réversibilité 100 pour 100</div>
+        </div>
+      </div>
+      <div class="fm-tip" id="fmtip"></div>
+    </div>
     <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Règle unique :</b> édité par un humain, c'est une collection Payload ; produit en masse par la machine, c'est une table applicative dans le même PostgreSQL. Tout reste du SQL standard, donc récupérable à 100 pour 100 par un simple export. C'est notre réponse directe à l'exigence de non-verrouillage.</div>
 
     <!-- ===== 4. STACK ET JUSTIFICATION ===== -->
@@ -285,75 +341,76 @@
 
     <!-- ===== 5. PÉRIMÈTRE ET CHIFFRAGE ===== -->
     <h2 id="perimetre"><span class="h2n">5</span>Périmètre et chiffrage</h2>
-    <p class="lead">Découpage par épic et par ticket, estimé en heures. Indicatif et pré-cadrage : ces chiffres seront resserrés à l'issue du palier de cadrage. Base de conversion : un jour égale sept heures.</p>
+    <p class="lead">Découpage par épic et par ticket, chiffré en dollars canadiens. Devis ferme à plus ou moins 20 pour 100, établi sur la base du cadrage déjà réalisé (les spikes de dérisquage).</p>
 
     <table>
-      <tr><th scope="col">Épic</th><th scope="col">Ticket</th><th scope="col">Risque</th><th scope="col" style="text-align:right">Heures</th></tr>
-      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
-      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><th scope="col">Épic</th><th scope="col">Ticket</th><th scope="col">Risque</th><th scope="col" style="text-align:right">Prix (CAD)</th></tr>
+      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
+      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">2</span> Identité Uplifter <span class="pill opt">conditionnel</span></td><td>Liaison compte membre (<code>is_member</code>, <code>fetch</code>) et écran</td><td><span class="pill high">élevé</span></td><td style="text-align:right">21 à 35</td></tr>
-      <tr><td>Synchronisation du statut (<code>changed_members</code>) et droits</td><td><span class="pill high">élevé</span></td><td style="text-align:right">28 à 42</td></tr>
-      <tr><td>Gestion erreurs, limites de débit, supervision</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">14 à 28</td></tr>
-      <tr><td>Conditionnel : couche de rapprochement d'identité si le numéro de membre est instable</td><td><span class="pill high">élevé</span></td><td style="text-align:right">+56 à 105</td></tr>
+      <tr><td rowspan="3"><span class="feat">2</span> Identité Uplifter <span class="pill low">périmètre ferme</span></td><td>Liaison compte membre (<code>is_member</code>, <code>fetch</code>) et écran</td><td><span class="pill high">élevé</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
+      <tr><td>Synchronisation du statut (<code>changed_members</code>) et droits</td><td><span class="pill high">élevé</span></td><td style="text-align:right">4&nbsp;550&nbsp;$</td></tr>
+      <tr><td>Gestion erreurs, limites de débit, supervision</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2&nbsp;730&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">3</span> Calendrier et Iskio</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Pipeline d'ingestion (staging, normalisation, dédoublonnage, corrections persistantes)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">28 à 42</td></tr>
-      <tr><td>Récupération Iskio (filet de sécurité)</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
-      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td rowspan="4"><span class="feat">3</span> Calendrier et Iskio</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Pipeline d'ingestion (staging, normalisation, dédoublonnage, corrections persistantes)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">4&nbsp;550&nbsp;$</td></tr>
+      <tr><td>Récupération Iskio (filet de sécurité)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
+      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
 
-      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Tables World Athletics (formule) et age grading</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
-      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 35</td></tr>
-      <tr><td>Rapprochement résultat et membre, file de revue</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 42</td></tr>
-      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 28</td></tr>
+      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Tables World Athletics (formule)</td><td><span class="pill low">faible</span></td><td style="text-align:right">780&nbsp;$</td></tr>
+      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
+      <tr><td>Rattachement résultat et membre (numéro dans le CSV dès 2027) et attribution historique</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
+      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;730&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 28</td></tr>
-      <tr><td>Reconnaissance de surface hybride (import et correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 35</td></tr>
-      <tr><td>Profil d'élévation, favoris, commentaires, ambassadeurs, QR</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">3&nbsp;250&nbsp;$</td></tr>
+      <tr><td>Reconnaissance de surface hybride (auto OSM et éditeur de correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
+      <tr><td>Profil d'élévation, favoris, commentaires</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;560&nbsp;$</td></tr>
 
-      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
+      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
 
-      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">4 à 7</td></tr>
+      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">780&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>Évaluations des facteurs vie privée, politiques, registres</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">28 à 42</td></tr>
-      <tr><td>Journaux d'audit, export et suppression de compte</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 35</td></tr>
-      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
-      <tr><td>Audit de sécurité (Lot 1)</td><td><span class="pill low">faible</span></td><td style="text-align:right">35 à 42</td></tr>
+      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>EFVP : cadre et gabarits (substance juridique portée par le conseil du client)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;560&nbsp;$</td></tr>
+      <tr><td>Journaux d'audit (minimal, via versioning Payload), export et suppression de compte</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;170&nbsp;$</td></tr>
+      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;170&nbsp;$</td></tr>
+      <tr><td>Audit de sécurité (Lot 1, passe ciblée)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;170&nbsp;$</td></tr>
 
-      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO et accessibilité WCAG 2.1 AA</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 35</td></tr>
-      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 28</td></tr>
-      <tr><td>Documentation, formation, transfert</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO (rendu serveur, données structurées Schema.org sur les courses) et accessibilité WCAG 2.1 AA (niveau de référence légale pour un organisme parapublic : navigation clavier, lecteurs d'écran, contrastes)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;730&nbsp;$</td></tr>
+      <tr><td>Documentation, formation, transfert (back-office Payload auto-documenté)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
     </table>
 
-    <div class="tot"><span class="mut">Total hors conditionnel</span><b>environ 475 à 720 h</b></div>
-    <div class="tot" style="background:var(--acc-mid)"><span class="mut">Conditionnel Uplifter (si numéro de membre instable)</span><b>plus 56 à 105 h</b></div>
-    <p class="note">Hors gestion de projet et marge de risque contractuelle. Le taux horaire est précisé au devis. Ces chiffres calibrent un devis à plus ou moins 20 pour 100, resserré après le palier de cadrage.</p>
+    <div class="tot"><span class="mut">Total périmètre ferme V1</span><b>70&nbsp;070&nbsp;$ CAD &nbsp;·&nbsp; ±20 %</b></div>
+    <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Réconciliation des résultats : déterministe, confirmé en réunion.</b> À partir de janvier 2027, Athlétisme Québec impose une colonne « numéro de membre Uplifter » dans les fichiers des chronométreurs ; les non-affiliés reçoivent une adhésion journalière prise automatiquement à l'inscription, qui fournit ce numéro. Chaque résultat porte donc un identifiant : simple import, pas de rapprochement flou. Pour 2026 et l'historique (une quinzaine d'événements certifiés), l'effort minimal est accepté par le client. Seul point ouvert, laissé hors chiffrage : si une même personne peut recevoir plusieurs numéros via des adhésions journalières, une déduplication manuelle légère de profils sera nécessaire, à vérifier au démarrage dès obtention du token.</div>
+    <p class="note">Prix par ligne, enveloppe ferme à plus ou moins 20 pour 100 (soit environ 56 100 à 84 100 dollars canadiens au global). Hors gestion de projet et marge de risque contractuelle. Établi sur la base du cadrage déjà réalisé. Le poste Sécurité et Loi 25 est volontairement resserré (environ 5 000 dollars) : la substance juridique de l'EFVP est portée par le conseil du client et l'audit du Lot 1 est une passe ciblée ; un audit externe complet ferait l'objet d'une ligne distincte.</p>
 
     <!-- ===== 6. PHASAGE ET JALONS ===== -->
     <h2 id="jalons"><span class="h2n">6</span>Phasage et jalons</h2>
     <p class="lead">Chaque jalon est un incrément démontrable et arrêtable, adapté à la contrainte de subvention. Le périmètre s'ajuste par tiroirs pour tenir le budget.</p>
     <div class="card">
-      <div class="phase"><div class="p">Palier 0</div><div><b>Cadrage.</b> Test réel de l'API Uplifter, règles de la Coupe Québec trail, périmètre des résultats, déclenchement du volet juridique Loi 25. Sort la brique identité du conditionnel.</div><div class="d">porte d'entrée</div></div>
+      <div class="phase"><div class="p">Démarrage</div><div><b>En parallèle du socle, sans gate facturé.</b> Obtention du token Uplifter et vérification du comportement de l'API (limites de débit, adhésions journalières), calage des règles de la Coupe Québec trail et du périmètre des résultats, déclenchement du volet juridique Loi 25. Ne bloque pas le socle.</div><div class="d">au lancement</div></div>
       <div class="phase"><div class="p">Palier 1</div><div><b>Socle.</b> Payload et front, authentification, access control, modèle de données, migration, hébergement Québec, contenu éditorial. Site déjà utilisable.</div><div class="d">socle livré</div></div>
       <div class="phase"><div class="p">Palier 2</div><div><b>Fondations métier.</b> Identité Uplifter et calendrier Iskio, en parallèle. Espace membre et calendrier de référence.</div><div class="d">espace membre</div></div>
       <div class="phase"><div class="p">Palier 3</div><div><b>Valeur membre.</b> Classements, profil coureur, avantages. L'expérience réservée aux membres au complet.</div><div class="d">accès membre</div></div>
       <div class="phase"><div class="p">Palier 4</div><div><b>Sentiers.</b> Répertoire GPX, carte MapLibre, reconnaissance de surface. Brique découplée, déplaçable selon la priorité.</div><div class="d">sentiers</div></div>
       <div class="phase"><div class="p">Palier 5</div><div><b>Durcissement.</b> Audit de sécurité, conformité Loi 25, accessibilité, tests, documentation, formation, transfert.</div><div class="d">conforme</div></div>
     </div>
-    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Correspondance avec les lots :</b> le Palier 0 correspond au Lot 2 (banque d'heures), les Paliers 1 à 4 au Lot 3 (réalisation), le Palier 5 intègre le Lot 1 (audit de sécurité). Les quatre blocs à démontrer pour la subvention sont couverts au plus tard au Palier 4.</div>
+    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Correspondance avec les lots :</b> le cadrage (Lot 2) est déjà réalisé (spikes de dérisquage), les Paliers 1 à 4 couvrent le Lot 3 (réalisation), le Palier 5 intègre le Lot 1 (audit de sécurité). Les quatre blocs à démontrer pour la subvention sont couverts au plus tard au Palier 4.</div>
 
     <!-- ===== 7. OPTIONS À TIROIR ===== -->
     <h2 id="tiroirs"><span class="h2n">7</span>Options à tiroir</h2>
     <p class="lead">Un tronc commun, et des options que vous déclenchez. Chaque tiroir se retire sans casser le reste, ce qui permet d'ajuster le périmètre au budget.</p>
-    <div class="tiroir"><div><div class="t">Reconnaissance de surface automatique</div><div class="desc">Plancher : saisie manuelle de la répartition (déjà acceptée). Cran supérieur : détection automatique par segment plus correction dans le back-office.</div></div><div class="price todo">option</div></div>
     <div class="tiroir"><div><div class="t">Coupe altimétrique colorée par surface</div><div class="desc">Croiser le type de terrain avec le profil d'altitude, à la manière de Komoot. Aucune dépendance externe, travail de rendu.</div></div><div class="price todo">option</div></div>
     <div class="tiroir"><div><div class="t">Archives historiques Iskio</div><div class="desc">Intégration des résultats anciens (jusqu'aux années 1930). Donnée froide, faible impact produit, à traiter après le rachat.</div></div><div class="price todo">phase ultérieure</div></div>
     <div class="tiroir"><div><div class="t">Barème avancé Coupe Québec trail</div><div class="desc">Plancher : barème par position. Crans : temps relatif au vainqueur, ou indice type ITRA au kilomètre-effort.</div></div><div class="price todo">option</div></div>
+    <div class="tiroir"><div><div class="t">Performance ajustée à l'âge (age grading)</div><div class="desc">Facteurs WMA sur le profil du coureur, en parallèle du classement brut. Intéresse surtout les vétérans. Hors classement officiel.</div></div><div class="price todo">V2</div></div>
+    <div class="tiroir"><div><div class="t">Ambassadeurs de sentiers et QR codes</div><div class="desc">Parrainage de sentiers par des ambassadeurs et QR codes sur le terrain. Fonctions de confort, hors cœur membre.</div></div><div class="price todo">V2</div></div>
+    <div class="tiroir"><div><div class="t">Graphiques d'évolution de performance</div><div class="desc">Courbes de progression sur le profil membre. Explicitement évoqué « plutôt pour une V2 » par le client.</div></div><div class="price todo">V2</div></div>
     <div class="tiroir"><div><div class="t">Refonte du design system</div><div class="desc">Plancher : reprise du style du prototype. Cran : design system propre et cohérent.</div></div><div class="price todo">option</div></div>
     <div class="tiroir"><div><div class="t">Serveur de tuiles auto-hébergé</div><div class="desc">Remplacer MapTiler par un serveur de tuiles Protomaps sur le VPS, pour supprimer l'abonnement et le verrouillage résiduel.</div></div><div class="price todo">option</div></div>
     <div class="tiroir"><div><div class="t">Instance de secours (haute disponibilité)</div><div class="desc">Un second serveur pour la redondance, si Athlétisme Québec veut plus de garanties que le VPS unique.</div></div><div class="price todo">option</div></div>
@@ -379,7 +436,7 @@
     <h2 id="attention"><span class="h2n">9</span>Points d'attention</h2>
     <p class="lead">Ce que le dérisquage a révélé, présenté sans détour.</p>
     <div class="grid g2">
-      <div class="card c-pink"><h3 style="margin-top:0">Uplifter, la seule inconnue majeure</h3><p style="font-size:13px;margin-bottom:0">Pas de connexion déléguée ni de notifications automatiques (confirmé). Deux questions restent ouvertes : la stabilité du numéro de membre et les limites de débit. Elles ne se lèvent qu'avec un token de test, d'où le chiffrage conditionnel de cette brique. À noter : le lien de documentation fourni pointait vers une autre société homonyme, ce qui explique peut-être les difficultés de communication.</p></div>
+      <div class="card c-pink"><h3 style="margin-top:0">Uplifter, le point à confirmer</h3><p style="font-size:13px;margin-bottom:0">Pas de connexion déléguée ni de notifications automatiques (confirmé). Deux questions restent ouvertes : les limites de débit de la synchronisation, et si les adhésions journalières donnent un numéro stable par personne. Elles ne se lèvent qu'avec un token de test. La réconciliation des résultats reste déterministe dès 2027 (numéro de membre imposé dans les fichiers) ; l'inconnue journalière n'affecte au pire qu'une déduplication manuelle légère de profils, laissée hors chiffrage. À noter : le lien de documentation fourni pointait vers une autre société homonyme, ce qui explique peut-être les difficultés de communication.</p></div>
       <div class="card c-pink"><h3 style="margin-top:0">Données personnelles du prototype</h3><p style="font-size:13px;margin-bottom:0">Le prototype expose actuellement les noms et dates de naissance d'environ 12 000 coureurs via une clé publique. Cela présente les caractéristiques d'un incident de confidentialité. La qualification revient au conseil juridique d'Athlétisme Québec ; la remédiation technique est de notre côté et sera traitée en priorité.</p></div>
       <div class="card c-yellow"><h3 style="margin-top:0">Rachat d'Iskio non finalisé</h3><p style="font-size:13px;margin-bottom:0">Pas encore d'accès à la base. Sans impact sur le calendrier : le calendrier public d'Iskio est accessible et sert de filet de sécurité pour construire le pipeline sans attendre le rachat.</p></div>
       <div class="card c-yellow"><h3 style="margin-top:0">Consentement des résultats publics</h3><p style="font-size:13px;margin-bottom:0">La publication de résultats nominatifs relève du régime de consentement de la Loi 25. Point à cadrer avec le conseil juridique du client, notamment pour l'historique et les mineurs.</p></div>
@@ -387,13 +444,13 @@
 
     <!-- ===== 10. PROCHAINES ÉTAPES ===== -->
     <h2 id="suite"><span class="h2n">10</span>Prochaines étapes</h2>
-    <p class="lead">Une porte d'entrée petite et concrète : le cadrage, qui lève la dernière inconnue avant de figer le devis.</p>
+    <p class="lead">Le cadrage est fait et ce document est le devis ferme. Il reste à le valider et à lancer la réalisation.</p>
     <div class="steps">
-      <div class="step"><div class="num">1</div><div class="txt"><b>Accès et token Uplifter.</b> Athlétisme Québec transmet les accès (dépôt, base) et sollicite un token de test auprès d'Uplifter.</div><div class="when">cette semaine</div></div>
-      <div class="step"><div class="num">2</div><div class="txt"><b>Palier de cadrage.</b> Test réel de l'API Uplifter, cadrage des règles de classement trail et du périmètre des résultats, déclenchement du volet juridique. Périmètre et prix fixes.</div><div class="when">banque de 10 à 15 h</div></div>
-      <div class="step"><div class="num">3</div><div class="txt"><b>Devis ferme.</b> À l'issue du cadrage, un devis à plus ou moins 20 pour 100 avec engagement de non-dépassement, périmètre priorisable par tiroirs.</div><div class="when">après cadrage</div></div>
+      <div class="step"><div class="num">1</div><div class="txt"><b>Validation du devis.</b> Athlétisme Québec valide le périmètre et l'enveloppe à plus ou moins 20 pour 100, priorisable par tiroirs.</div><div class="when">cette semaine</div></div>
+      <div class="step"><div class="num">2</div><div class="txt"><b>Accès et token Uplifter.</b> Athlétisme Québec transmet les accès (dépôt, base), sollicite le token auprès d'Uplifter et lance le volet juridique Loi 25. En parallèle du socle.</div><div class="when">au lancement</div></div>
+      <div class="step"><div class="num">3</div><div class="txt"><b>Démarrage du Palier 1.</b> Mise en place du socle. Le comportement de l'API se vérifie dès réception du token, sans bloquer le socle.</div><div class="when">dès validation</div></div>
     </div>
-    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Le premier oui :</b> un palier de cadrage à périmètre et prix fixes (banque de 10 à 15 heures), à démarrer dès réception du token Uplifter. Il transforme la dernière inconnue en devis ferme.</div>
+    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Le premier oui :</b> valider ce devis ferme (périmètre priorisable par tiroirs, enveloppe à plus ou moins 20 pour 100) et lancer le socle. Le cadrage, déjà réalisé, n'est plus une étape à financer.</div>
 
   </main>
 </div>
@@ -419,6 +476,100 @@ links.forEach(a=>a.addEventListener('click',e=>{
   document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
 }));
 window.addEventListener('beforeprint',()=>document.querySelectorAll('details.fold').forEach(d=>d.open=true));
+
+/* Schéma d'architecture interactif : connecteurs SVG + particules animées, coordonnées calculées depuis le DOM réel (robuste au responsive). */
+(function(){
+  const flow=document.getElementById('flowmap');
+  if(!flow)return;
+  const svg=document.getElementById('fmsvg');
+  const tip=document.getElementById('fmtip');
+  const core=document.getElementById('fmcore');
+  const db=document.getElementById('fmdb');
+  const srcs=[...flow.querySelectorAll('.fm-src')];
+  const NS='http://www.w3.org/2000/svg';
+  let flows=[], raf=null, t0=null;
+
+  function anchor(el,side){
+    const c=svg.getBoundingClientRect(), r=el.getBoundingClientRect();
+    const midY=r.top-c.top+r.height/2;
+    if(side==='right')return[r.right-c.left,midY];
+    if(side==='left') return[r.left-c.left,midY];
+    if(side==='bottom')return[r.left-c.left+r.width/2,r.bottom-c.top];
+    return[r.left-c.left+r.width/2,r.top-c.top]; // top
+  }
+  function makeFlow(p,count){
+    const len=p.getTotalLength();
+    const n=count||Math.max(2,Math.round(len/85));
+    const dots=[];
+    if(!reduceMotion){
+      for(let i=0;i<n;i++){
+        const c=document.createElementNS(NS,'circle');
+        c.setAttribute('r','3.2');c.setAttribute('class','fm-dot');
+        c.dataset.off=(i/n);svg.appendChild(c);dots.push(c);
+      }
+    }
+    return {p,len,dots};
+  }
+  function build(){
+    svg.innerHTML='';flows=[];
+    const w=svg.clientWidth,h=svg.clientHeight;
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    if(flow.clientWidth<=620)return; // connecteurs masqués en mobile (empilé vertical)
+    const cRect=core.getBoundingClientRect(),sRect=svg.getBoundingClientRect();
+    const coreTop=cRect.top-sRect.top+14, coreBot=cRect.bottom-sRect.top-14;
+    const cx=cRect.left-sRect.left;
+    function mk(d){const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class','fm-path');svg.appendChild(p);return p;}
+    srcs.forEach(s=>{
+      const a=anchor(s,'right'), x1=a[0], y1=a[1];
+      const y2=Math.max(coreTop,Math.min(coreBot,y1));
+      const p=mk('M '+x1+' '+y1+' C '+(x1+46)+' '+y1+', '+(cx-46)+' '+y2+', '+cx+' '+y2);
+      s._path=p;flows.push(makeFlow(p));
+    });
+    const b1=anchor(core,'bottom'), b2=anchor(db,'top');
+    const dp=mk('M '+b1[0]+' '+b1[1]+' C '+b1[0]+' '+(b1[1]+26)+', '+b2[0]+' '+(b2[1]-26)+', '+b2[0]+' '+b2[1]);
+    flows.push(makeFlow(dp,3));
+  }
+  function tick(ts){
+    if(t0===null)t0=ts;
+    const el=(ts-t0)/1000, speed=68;
+    flows.forEach(f=>f.dots.forEach(c=>{
+      const off=parseFloat(c.dataset.off);
+      const d=((el*speed)/f.len+off)%1;
+      const pt=f.p.getPointAtLength(d*f.len);
+      c.setAttribute('cx',pt.x);c.setAttribute('cy',pt.y);
+      c.style.opacity=(d<0.06)?d/0.06:(d>0.94)?(1-d)/0.06:1;
+    }));
+    raf=requestAnimationFrame(tick);
+  }
+  function start(){if(raf)cancelAnimationFrame(raf);t0=null;if(!reduceMotion&&flows.some(f=>f.dots.length))raf=requestAnimationFrame(tick);}
+  function rebuild(){build();start();}
+
+  srcs.forEach(s=>{
+    s.addEventListener('mouseenter',()=>{
+      s.classList.add('hot');core.classList.add('hot');
+      srcs.forEach(o=>{if(o!==s)o.classList.add('dim')});
+      if(s._path)s._path.classList.add('hot');
+      const dt=s.dataset.detail;
+      if(dt){
+        tip.textContent=dt;
+        const r=s.getBoundingClientRect(),c=flow.getBoundingClientRect();
+        tip.style.left=(r.right-c.left+14)+'px';
+        tip.style.top=Math.min(r.top-c.top,flow.clientHeight-72)+'px';
+        tip.classList.add('on');
+      }
+    });
+    s.addEventListener('mouseleave',()=>{
+      s.classList.remove('hot');core.classList.remove('hot');
+      srcs.forEach(o=>o.classList.remove('dim'));
+      if(s._path)s._path.classList.remove('hot');
+      tip.classList.remove('on');
+    });
+  });
+
+  rebuild();
+  if(window.ResizeObserver){new ResizeObserver(()=>rebuild()).observe(flow);}
+  window.addEventListener('resize',rebuild,{passive:true});
+})();
 </script>
 </body>
 </html>
