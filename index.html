@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>TRACTR × Viens Courir : proposition de plateforme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== TRACTR NÉO-BRUT — design tokens (NE PAS modifier sauf demande explicite) ===== */
+  :root{
+    --bg:#FDFDFD; --bg-alt:#F4F4FF; --card-bg:#ffffff;
+    --ink:#1a1a1a; --ink2:#1a1a1a; --muted:#5a5a5a; --faint:#5a5a5a;
+    --acc:#0000ff; --acc-soft:#E8E8FF; --acc-mid:#6666ff;
+    --pink:#ffdcf0; --pink-strong:#ffb8dd; --green:#B3F4D1; --yellow:#FFF2C8; --blue-light:#8BD8FD;
+    --border:#1a1a1a; --border-light:#d0d0d0;
+    --v1ink:#0a7d3a; --v2ink:#9a6207;
+    --r:3px;
+    --sh:4px 4px 0 var(--border-light);
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:'DM Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --display:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body::before{content:'';position:fixed;inset:0;opacity:.02;pointer-events:none;z-index:9999;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+  .wrap{display:grid;grid-template-columns:264px 1fr;max-width:1180px;margin:0 auto;gap:0;background:var(--bg)}
+  aside{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 20px;
+    border-right:2px solid var(--border);background:var(--bg)}
+  aside .brand{display:flex;flex-direction:column;gap:9px}
+  aside .brand .sb-title{font-family:var(--display);font-size:13.5px;line-height:1.35}
+  aside .brand .sb-blue{color:var(--acc);font-weight:700}
+  aside .brand .sb-reg{color:var(--muted);font-weight:400}
+  aside .brand .sb-bold{color:var(--ink);font-weight:700}
+  nav{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+  nav a{color:var(--ink);text-decoration:none;font-size:13px;padding:7px 10px;border:2px solid transparent;
+    border-radius:var(--r);transition:.12s;display:flex;gap:9px;align-items:center;font-weight:500}
+  nav a .n{color:var(--acc);font-family:var(--display);font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;min-width:16px}
+  nav a:hover{background:var(--acc-soft)}
+  nav a.active{background:var(--acc);color:#fff;border-color:var(--border);box-shadow:3px 3px 0 var(--border-light);font-weight:600}
+  nav a.active .n{color:#fff}
+  /* doc-switcher : navigation entre plusieurs documents liés (ex. audit + proposition) */
+  .docnav{display:flex;gap:6px;margin-top:14px}
+  .docnav a{flex:1;text-align:center;font-family:var(--display);font-size:10.5px;font-weight:700;padding:8px 6px;border:2px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--ink);background:#fff;box-shadow:2px 2px 0 var(--border-light);transition:.12s}
+  .docnav a.active{background:var(--acc);color:#fff}
+  .docnav a:hover:not(.active){background:var(--acc-soft)}
+  main{padding:46px 56px 90px;min-width:0}
+  .line-accent{width:56px;height:5px;background:var(--acc);margin:0 0 14px}
+  .cobrand{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+  .cobrand img{display:block;width:auto}
+  .cobrand .cb-tractr{height:26px}
+  .cobrand .cb-client{height:34px}
+  .cobrand .cb-x{font-family:var(--display);font-size:22px;color:var(--border-light);font-weight:400;line-height:1}
+  .cb-wordmark{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em;color:var(--acc)}
+  .eyebrow{display:inline-block;font-family:var(--display);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:#fff;background:var(--acc);border:2px solid var(--border);padding:5px 12px;border-radius:var(--r);box-shadow:3px 3px 0 var(--border-light);margin-bottom:16px}
+  h1{font-family:var(--display);font-size:34px;letter-spacing:-.03em;margin:0 0 10px;font-weight:700;line-height:1.1}
+  .tagline{color:var(--ink2);font-size:16px;margin:0 0 12px;max-width:62ch;line-height:1.5}
+  .meta{color:var(--muted);font-size:12.5px;font-family:var(--mono);padding-bottom:20px;border-bottom:2px solid var(--border)}
+  h2{font-family:var(--display);font-size:24px;letter-spacing:-.02em;margin:54px 0 6px;font-weight:700;line-height:1.15;display:flex;align-items:center;gap:12px}
+  h2 .h2n{font-family:var(--display);font-size:14px;font-weight:700;color:#fff;background:var(--acc);width:32px;height:32px;
+    display:flex;align-items:center;justify-content:center;border:2px solid var(--border);border-radius:var(--r);box-shadow:3px 3px 0 var(--border-light);flex:none}
+  h3{font-family:var(--display);font-size:18px;margin:28px 0 8px;font-weight:600;letter-spacing:-.01em}
+  p{margin:11px 0;max-width:74ch}
+  .lead{color:var(--muted);max-width:64ch;font-size:15.5px}
+  code{font-family:var(--mono);font-size:.85em;background:var(--acc-soft);padding:2px 6px;border-radius:3px;color:var(--acc);border:1px solid var(--acc-mid)}
+  .card{background:var(--card-bg);border:2px solid var(--border);border-radius:var(--r);padding:18px 20px;margin:16px 0;box-shadow:var(--sh)}
+  .card.c-blue{background:var(--acc-soft)}.card.c-pink{background:var(--pink)}.card.c-green{background:var(--green)}.card.c-yellow{background:var(--yellow)}
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:920px){.wrap{grid-template-columns:1fr}aside{display:none}.g2,.g3{grid-template-columns:1fr}main{padding:28px 22px}}
+  .pill{display:inline-block;font-family:var(--display);font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:var(--r);vertical-align:middle;letter-spacing:.04em;text-transform:uppercase;border:2px solid var(--border)}
+  .pill.v1{background:var(--green);color:#0a3d20}
+  .pill.v2{background:var(--yellow);color:#5c3d00}
+  .pill.man{background:#fff;color:var(--ink);border-style:dashed}
+  .pill.opt{background:var(--acc-soft);color:var(--acc)}
+  .pill.low{background:var(--green);color:#0a3d20}
+  .pill.mid{background:var(--yellow);color:#5c3d00}
+  .pill.high{background:var(--pink);color:#7a1340}
+  .pill.todo{background:#fff;color:var(--muted);border-style:dashed}
+  .feat{font-family:var(--display);font-size:11px;color:#fff;background:var(--acc);padding:1px 7px;border-radius:3px;font-weight:700;white-space:nowrap}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0;background:var(--card-bg);border:2px solid var(--border);box-shadow:var(--sh)}
+  th{font-family:var(--display);background:var(--acc);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;text-align:left;padding:9px 13px;border-bottom:2px solid var(--border)}
+  td{text-align:left;padding:9px 13px;border-bottom:1.5px solid var(--border-light);vertical-align:top}
+  tbody tr:last-child td,table tr:last-child td{border-bottom:none}
+  tr:nth-child(even) td{background:var(--bg-alt)}
+  .ok{color:var(--v1ink);font-weight:600}.warn{color:var(--v2ink);font-weight:600}.bad{color:#cc0000;font-weight:600}.mut{color:var(--muted)}
+  ul{margin:8px 0;padding-left:20px}li{margin:6px 0;max-width:74ch}
+  .callout{border:2px solid var(--border);background:var(--acc-soft);padding:14px 18px;border-radius:var(--r);margin:18px 0;font-size:14px;color:var(--ink2);box-shadow:var(--sh)}
+  .callout.v1{background:var(--green)}.callout.v2{background:var(--yellow)}.callout.warn{background:var(--pink)}
+  .callout b{color:var(--ink)}
+  .callout p{max-width:none}
+  /* stack de couches techniques (présentation de technos / briques) */
+  .stack{display:flex;flex-direction:column;gap:12px}
+  .layer{display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;background:var(--card-bg);
+    border:2px solid var(--border);border-radius:var(--r);padding:14px 18px;box-shadow:var(--sh)}
+  .layer .tech{font-family:var(--display);font-weight:700;font-size:15px}
+  .layer .tech small{display:block;color:var(--muted);font-weight:500;font-family:var(--mono);font-size:11px;margin-top:3px}
+  .layer .tech .techlogo{width:36px;height:36px;border-radius:8px;display:block;margin-bottom:8px;border:2px solid var(--border);object-fit:contain;background:#fff}
+  .layer .why{font-size:13.5px;color:var(--muted);max-width:none}
+  .techlink{font-family:var(--display);font-size:11px;font-weight:600;color:var(--acc);text-decoration:none;border:1.5px solid var(--acc);border-radius:3px;padding:1px 7px;margin-left:6px;white-space:nowrap}
+  .techlink:hover{background:var(--acc-soft)}
+  /* scopebox : périmètre inclus / exclu (hors scope, post-MVP) */
+  .scopebox{border:2px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
+  .scopebox.out{background:var(--yellow)}
+  .scopebox h3{margin:0 0 10px;font-size:15px}
+  /* phase : ligne de phasage (libellé | description | durée) */
+  .phase{display:grid;grid-template-columns:104px 1fr auto;gap:18px;align-items:start;padding:14px 0;border-bottom:1.5px solid var(--border-light)}
+  .phase:last-child{border-bottom:none}
+  .phase .p{font-family:var(--display);font-weight:700;color:var(--acc)}
+  .phase .d{font-family:var(--mono);font-size:12px;color:var(--ink);white-space:nowrap;background:var(--acc-soft);padding:3px 9px;border-radius:3px;border:2px solid var(--border)}
+  /* steps : étapes numérotées (prochaines étapes) */
+  .steps{display:grid;gap:14px;margin:16px 0}
+  .step{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;background:var(--card-bg);border:2px solid var(--border);border-radius:var(--r);padding:15px 18px;box-shadow:var(--sh)}
+  .step .num{width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;font-family:var(--display);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;border:2px solid var(--border);box-shadow:2px 2px 0 var(--border-light);flex:none}
+  .step .txt{font-size:13.5px;color:var(--ink2);max-width:none}
+  .step .txt b{font-family:var(--display)}
+  .step .when{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--acc-soft);padding:4px 10px;border-radius:3px;border:2px solid var(--border);white-space:nowrap}
+  @media(max-width:560px){.step{grid-template-columns:auto 1fr}.step .when{grid-column:2;justify-self:start;margin-top:4px}}
+  /* total budget (encadré accent plein) */
+  .tot{display:flex;justify-content:space-between;align-items:baseline;background:var(--acc);color:#fff;
+    border:2px solid var(--border);border-radius:var(--r);padding:16px 22px;margin-top:16px;box-shadow:4px 4px 0 var(--border-light)}
+  .tot .mut{color:rgba(255,255,255,.82)}
+  .tot b{font-family:var(--display);font-size:19px;letter-spacing:-.01em}
+  .erd{font-family:var(--mono);font-size:12.5px;line-height:1.7;white-space:pre;overflow:auto;
+    background:var(--card-bg);border:2px solid var(--border);border-radius:var(--r);padding:18px;color:var(--ink2);box-shadow:var(--sh)}
+  .note{font-size:12.5px;color:var(--muted);font-style:italic;max-width:74ch}
+  .kpicards .card{margin:0;border-top:5px solid var(--acc)}
+  .kpicards .lbl{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--acc);text-transform:uppercase}
+  /* tiroir : option à la carte (devis à tiroir) */
+  .tiroir{border:2px solid var(--border);border-radius:var(--r);padding:16px 18px;margin:14px 0;background:var(--card-bg);box-shadow:var(--sh);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+  .tiroir .t{font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:3px}
+  .tiroir .desc{font-size:13px;color:var(--muted)}
+  .tiroir .price{font-family:var(--display);font-size:13px;font-weight:700;color:#fff;white-space:nowrap;background:var(--acc);padding:6px 12px;border-radius:3px;border:2px solid var(--border);text-align:center}
+  .tiroir .price.todo{color:var(--muted);background:#fff;border:2px dashed var(--border-light)}
+  /* startbox : encadré "on commence ici" (point d'entrée mis en avant) */
+  .startbox{border:2px solid var(--border);border-radius:var(--r);box-shadow:5px 5px 0 var(--acc-mid);background:var(--acc-soft);padding:4px 22px 20px;margin:18px 0}
+  .ico{width:17px;height:17px;vertical-align:-3px;margin-right:8px;fill:none;stroke:var(--acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .facts{display:flex;gap:34px;flex-wrap:wrap;margin:16px 0}
+  .fact .n{font-family:var(--display);font-size:26px;font-weight:700;color:var(--acc);line-height:1.05}
+  .fact .l{font-size:12.5px;color:var(--muted);margin-top:4px;max-width:26ch}
+  .logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:12px;margin:10px 0 0;max-width:780px}
+  .logos .lg{background:#fff;border:2px solid var(--border);border-radius:3px;box-shadow:2px 2px 0 var(--border-light);height:58px;display:flex;align-items:center;justify-content:center;padding:10px;transition:.12s}
+  .logos a.lg:hover{box-shadow:3px 3px 0 var(--acc-mid);transform:translate(-1px,-1px)}
+  .logos .lg img{max-height:30px;max-width:100%;width:auto;object-fit:contain}
+  .team{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+  .tcard{display:grid;grid-template-columns:auto 1fr;gap:14px;background:var(--card-bg);border:2px solid var(--border);border-radius:3px;box-shadow:var(--sh);padding:16px}
+  .tcard .av{width:54px;height:54px;border-radius:50%;border:2px solid var(--acc);background:var(--acc-soft);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;color:var(--acc);font-size:16px;overflow:hidden;flex:none}
+  .tcard .av img{width:100%;height:100%;object-fit:cover}
+  .tcard .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .tcard .rl{font-size:12px;color:var(--acc);font-weight:600;font-family:var(--display);margin:2px 0 6px}
+  .tcard .bio{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .tcard .bio .role-line{display:block;margin-top:8px}
+  @media(max-width:920px){.team{grid-template-columns:1fr}}
+  a:focus-visible,nav a:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:2px}
+  .side-foot{margin-top:22px;padding-top:16px;border-top:2px solid var(--border);font-size:12px;font-family:var(--display)}
+  .side-foot a{color:var(--acc);text-decoration:none;font-weight:600;word-break:break-all}
+  .side-foot a:hover{text-decoration:underline}
+  main a{color:var(--acc);font-weight:600}
+  @media(max-width:920px){main table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:14px 0}
+  .quote{display:flex;flex-direction:column;background:var(--card-bg);border:2px solid #D4A017;border-radius:var(--r);box-shadow:4px 4px 0 #F0DFA0;padding:16px 18px}
+  .quote p{font-size:13px;font-style:italic;color:var(--ink2);margin:0 0 12px;max-width:none;flex:1}
+  .qfoot{display:flex;align-items:center;gap:10px}
+  .qav{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);background:var(--acc-soft);overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;color:var(--acc);font-size:13px}
+  .qav img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+  .qmeta{display:flex;flex-direction:column;line-height:1.25}
+  .qn{font-family:var(--display);font-weight:700;font-size:12.5px;color:var(--ink)}
+  .qc{font-size:11px;color:var(--muted)}
+  @media(max-width:920px){.quotes{grid-template-columns:1fr}}
+  details.fold{border:2px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin:16px 0;background:var(--card-bg)}
+  details.fold>summary{cursor:pointer;list-style:none;padding:13px 18px;font-family:var(--display);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--acc-soft)}
+  details.fold>summary::-webkit-details-marker{display:none}
+  details.fold>summary::after{content:"+";font-family:var(--display);font-size:18px;color:var(--acc);font-weight:700;line-height:1}
+  details.fold[open]>summary::after{content:"–"}
+  details.fold>summary:hover{background:#dcdcff}
+  details.fold .fold-body{padding:2px 18px 16px}
+  details.fold .fold-body>:first-child{margin-top:6px}
+  @media print{aside{display:none}.wrap{grid-template-columns:1fr}main{padding:0}body::before{display:none}
+    .card,.layer,.scopebox,.tiroir,table,.erd,.tot,.callout,details.fold,.startbox,.step{box-shadow:none}h2{break-after:avoid}table,.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside>
+    <div class="brand">
+      <div class="sb-title"><span class="sb-blue">Proposition de plateforme</span> <span class="sb-reg">pour</span> <span class="sb-bold">Viens Courir</span></div>
+    </div>
+    <nav id="nav">
+      <a href="#resume"><span class="n">1</span>Résumé exécutif</a>
+      <a href="#objectif"><span class="n">2</span>Objectif de la V1</a>
+      <a href="#archi"><span class="n">3</span>Architecture</a>
+      <a href="#stack"><span class="n">4</span>Stack et justification</a>
+      <a href="#perimetre"><span class="n">5</span>Périmètre et chiffrage</a>
+      <a href="#jalons"><span class="n">6</span>Phasage et jalons</a>
+      <a href="#tiroirs"><span class="n">7</span>Options à tiroir</a>
+      <a href="#couts"><span class="n">8</span>Coûts de fonctionnement</a>
+      <a href="#attention"><span class="n">9</span>Points d'attention</a>
+      <a href="#equipe"><span class="n">10</span>Équipe et TRACTR</a>
+      <a href="#conditions"><span class="n">11</span>Conditions commerciales</a>
+      <a href="#suite"><span class="n">12</span>Prochaines étapes</a>
+    </nav>
+    <div class="side-foot"><a href="mailto:guillaume@tractr.net">guillaume@tractr.net</a></div>
+  </aside>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <div class="cobrand">
+      <img class="cb-tractr" src="logo-tractr.png" alt="TRACTR">
+      <span class="cb-x">×</span>
+      <span class="cb-wordmark">VIENS COURIR</span>
+    </div>
+    <div class="line-accent"></div>
+    <span class="eyebrow">Proposition technique et commerciale</span>
+    <h1>La plateforme de référence de la course au Québec</h1>
+    <p class="tagline">Un espace membre qui relie calendrier, classements, avantages et sentiers, bâti sur des fondations sécurisées et transférables à Athlétisme Québec.</p>
+    <p class="meta">TRACTR pour Anselme Poher et Sarah Bergeron Larouche, Athlétisme Québec · juillet 2026</p>
+
+    <!-- ===== 1. RÉSUMÉ EXÉCUTIF ===== -->
+    <h2 id="resume"><span class="h2n">1</span>Résumé exécutif</h2>
+    <p class="lead">Viens Courir n'est pas un site vitrine : c'est un produit qui orchestre plusieurs sources existantes (Uplifter, Iskio, résultats de chronométrage, tables World Athletics, fichiers GPX) en une plateforme administrable, sécurisée et transférable.</p>
+
+    <div class="grid g3 kpicards">
+      <div class="card"><div class="lbl">Dérisquage</div><b style="font-size:17px">6 spikes menés</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">API probée, données mesurées, formules reproduites, pas de promesses</p></div>
+      <div class="card"><div class="lbl">Inconnue restante</div><b style="font-size:17px">Une seule</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">Le comportement réel de l'API Uplifter, à lever avec un token de test</p></div>
+      <div class="card"><div class="lbl">Socle</div><b style="font-size:17px">Payload + Coolify</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">Hébergé au Québec, propriété et autonomie pour Athlétisme Québec</p></div>
+    </div>
+
+    <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Notre principe directeur :</b> lever les inconnues avant de figer l'estimé. Le dérisquage technique est déjà fait, pas promis. Chaque affirmation de cette proposition distingue ce qui est vérifié de ce qui reste à confirmer.</div>
+
+    <table>
+      <tr><th scope="col">Décision de stack</th><th scope="col">Choix</th><th scope="col">Pourquoi</th></tr>
+      <tr><td>CMS et back-office</td><td><b>Payload CMS 3</b></td><td>Administrable par une équipe non technique, code-first, propriété totale des données</td></tr>
+      <tr><td>Base de données</td><td><b>PostgreSQL</b></td><td>Standard, portable, réversibilité par un simple export</td></tr>
+      <tr><td>Cartographie</td><td><b>MapLibre + MapTiler</b></td><td>Coloration du tracé par surface, tuiles vectorielles, anti-verrouillage</td></tr>
+      <tr><td>Hébergement</td><td><b>VPS Coolify au Québec</b></td><td>Souveraineté Loi 25, coût mutualisé, Athlétisme Québec garde la main</td></tr>
+      <tr><td>Identité membre</td><td><b>Compte local + liaison Uplifter</b></td><td>Uplifter n'offre pas de connexion déléguée : la seule voie confirmée</td></tr>
+    </table>
+
+    <!-- ===== 2. OBJECTIF DE LA V1 ===== -->
+    <h2 id="objectif"><span class="h2n">2</span>Objectif de la V1</h2>
+    <p class="lead">La V1 répond à des questions concrètes pour le coureur et pour Athlétisme Québec. Chacune est portée par une brique métier.</p>
+    <div class="grid g2">
+      <div class="card c-blue"><h3 style="margin-top:0">Pour le coureur</h3><p style="font-size:13.5px;margin-bottom:0">Suis-je reconnu comme membre ? Où est le calendrier de référence des courses ? Où me situe mon classement ? Quels avantages et quels sentiers me sont réservés ?</p></div>
+      <div class="card c-green"><h3 style="margin-top:0">Pour Athlétisme Québec</h3><p style="font-size:13.5px;margin-bottom:0">Comment fidéliser mes membres et donner aux non-membres l'envie d'adhérer ? Comment valoriser les événements sanctionnés ? Comment garder la main sur mes contenus et mes données ?</p></div>
+    </div>
+    <p>Le prototype interne d'Athlétisme Québec n'est pas repris comme base. Nous en récupérons la spécification, des composants et les données réelles déjà saisies (environ 20 500 résultats, événements, partenaires, actualités), ce qui accélère le démarrage.</p>
+
+    <!-- ===== 3. ARCHITECTURE ===== -->
+    <h2 id="archi"><span class="h2n">3</span>Architecture</h2>
+    <p class="lead">Une décision structure tout le reste : la frontière entre ce qui est administré par un humain et ce qui est produit par la machine.</p>
+    <div class="erd">                    ┌─────────────────────────────────────────┐
+                    │        Plateforme VIENS COURIR          │
+                    │      Payload CMS 3  +  Next.js           │
+                    │                                         │
+  API Uplifter ───▶ │  membres · entitlements (droits FOMO)   │
+  (compte local     │  événements · éditions · courses · lieux│
+   + liaison)       │  séries · sentiers · partenaires        │
+                    │                                         │
+  Iskio ─────────▶  │  ┌───── collections (humain) ──────┐    │
+  (pipeline)        │  │  contenu, calendrier, sentiers   │    │
+                    │  └──────────────────────────────────┘    │
+  CSV résultats ─▶  │  ┌──── tables applicatives (machine) ┐   │
+  World Athletics ▶ │  │  résultats · scores · classements │   │
+                    │  └───────────────────────────────────┘   │
+                    └─────────────────────────────────────────┘
+                          Un seul PostgreSQL, hébergé au Québec</div>
+    <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Règle unique :</b> édité par un humain, c'est une collection Payload ; produit en masse par la machine, c'est une table applicative dans le même PostgreSQL. Tout reste du SQL standard, donc récupérable à 100 pour 100 par un simple export. C'est notre réponse directe à l'exigence de non-verrouillage.</div>
+
+    <!-- ===== 4. STACK ET JUSTIFICATION ===== -->
+    <h2 id="stack"><span class="h2n">4</span>Stack et justification</h2>
+    <p class="lead">Un socle open source, administrable, hébergé au Québec, et pensé pour rester la propriété d'Athlétisme Québec.</p>
+    <div class="stack">
+      <div class="layer"><div class="tech">Payload CMS 3<small>back-office code-first</small></div><div class="why">Access control au champ près pour le floutage réservé aux membres, auth native, tâches planifiées, admin en français. <a class="techlink" href="https://payloadcms.com" target="_blank" rel="noopener">payloadcms.com ↗</a></div></div>
+      <div class="layer"><div class="tech">Next.js<small>front intégré</small></div><div class="why">Rendu serveur, SEO, un seul projet pour le site public et l'espace membre. <a class="techlink" href="https://nextjs.org" target="_blank" rel="noopener">nextjs.org ↗</a></div></div>
+      <div class="layer"><div class="tech">PostgreSQL<small>base de données</small></div><div class="why">Standard et portable. Collections administrables et tables applicatives cohabitent dans une même base. <a class="techlink" href="https://www.postgresql.org" target="_blank" rel="noopener">postgresql.org ↗</a></div></div>
+      <div class="layer"><div class="tech">MapLibre + MapTiler<small>cartographie</small></div><div class="why">Tuiles vectorielles, coloration du tracé par type de surface, style personnalisable. Bascule possible vers un serveur de tuiles auto-hébergé. <a class="techlink" href="https://maplibre.org" target="_blank" rel="noopener">maplibre.org ↗</a></div></div>
+      <div class="layer"><div class="tech">Coolify<small>hébergement au Québec</small></div><div class="why">Un serveur unique mutualise application, base, stockage et sauvegardes. Athlétisme Québec possède le serveur et ses déploiements. <a class="techlink" href="https://coolify.io" target="_blank" rel="noopener">coolify.io ↗</a></div></div>
+    </div>
+
+    <!-- ===== 5. PÉRIMÈTRE ET CHIFFRAGE ===== -->
+    <h2 id="perimetre"><span class="h2n">5</span>Périmètre et chiffrage</h2>
+    <p class="lead">Découpage par épic et par ticket, estimé en heures. Indicatif et pré-cadrage : ces chiffres seront resserrés à l'issue du palier de cadrage. Base de conversion : un jour égale sept heures.</p>
+
+    <table>
+      <tr><th scope="col">Épic</th><th scope="col">Ticket</th><th scope="col">Risque</th><th scope="col" style="text-align:right">Heures</th></tr>
+      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
+      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+
+      <tr><td rowspan="4"><span class="feat">2</span> Identité Uplifter <span class="pill opt">conditionnel</span></td><td>Liaison compte membre (<code>is_member</code>, <code>fetch</code>) et écran</td><td><span class="pill high">élevé</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td>Synchronisation du statut (<code>changed_members</code>) et droits</td><td><span class="pill high">élevé</span></td><td style="text-align:right">28 à 42</td></tr>
+      <tr><td>Gestion erreurs, limites de débit, supervision</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">14 à 28</td></tr>
+      <tr><td>Conditionnel : couche de rapprochement d'identité si le numéro de membre est instable</td><td><span class="pill high">élevé</span></td><td style="text-align:right">+56 à 105</td></tr>
+
+      <tr><td rowspan="4"><span class="feat">3</span> Calendrier et Iskio</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Pipeline d'ingestion (staging, normalisation, dédoublonnage, corrections persistantes)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">28 à 42</td></tr>
+      <tr><td>Récupération Iskio (filet de sécurité)</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
+      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 35</td></tr>
+
+      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Tables World Athletics (formule) et age grading</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
+      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td>Rapprochement résultat et membre, file de revue</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 42</td></tr>
+      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 28</td></tr>
+
+      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 28</td></tr>
+      <tr><td>Reconnaissance de surface hybride (import et correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td>Profil d'élévation, favoris, commentaires, ambassadeurs, QR</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+
+      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">7 à 14</td></tr>
+
+      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">4 à 7</td></tr>
+
+      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>Évaluations des facteurs vie privée, politiques, registres</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">28 à 42</td></tr>
+      <tr><td>Journaux d'audit, export et suppression de compte</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 21</td></tr>
+      <tr><td>Audit de sécurité (Lot 1)</td><td><span class="pill low">faible</span></td><td style="text-align:right">35 à 42</td></tr>
+
+      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO et accessibilité WCAG 2.1 AA</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 35</td></tr>
+      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">14 à 28</td></tr>
+      <tr><td>Documentation, formation, transfert</td><td><span class="pill low">faible</span></td><td style="text-align:right">21 à 35</td></tr>
+    </table>
+
+    <div class="tot"><span class="mut">Total hors conditionnel</span><b>environ 475 à 720 h</b></div>
+    <div class="tot" style="background:var(--acc-mid)"><span class="mut">Conditionnel Uplifter (si numéro de membre instable)</span><b>plus 56 à 105 h</b></div>
+    <p class="note">Hors gestion de projet et marge de risque contractuelle. Le taux horaire est précisé au devis. Ces chiffres calibrent un devis à plus ou moins 20 pour 100, resserré après le palier de cadrage.</p>
+
+    <!-- ===== 6. PHASAGE ET JALONS ===== -->
+    <h2 id="jalons"><span class="h2n">6</span>Phasage et jalons</h2>
+    <p class="lead">Chaque jalon est un incrément démontrable et arrêtable, adapté à la contrainte de subvention. Le périmètre s'ajuste par tiroirs pour tenir le budget.</p>
+    <div class="card">
+      <div class="phase"><div class="p">Palier 0</div><div><b>Cadrage.</b> Test réel de l'API Uplifter, règles de la Coupe Québec trail, périmètre des résultats, déclenchement du volet juridique Loi 25. Sort la brique identité du conditionnel.</div><div class="d">porte d'entrée</div></div>
+      <div class="phase"><div class="p">Palier 1</div><div><b>Socle.</b> Payload et front, authentification, access control, modèle de données, migration, hébergement Québec, contenu éditorial. Site déjà utilisable.</div><div class="d">socle livré</div></div>
+      <div class="phase"><div class="p">Palier 2</div><div><b>Fondations métier.</b> Identité Uplifter et calendrier Iskio, en parallèle. Espace membre et calendrier de référence.</div><div class="d">espace membre</div></div>
+      <div class="phase"><div class="p">Palier 3</div><div><b>Valeur membre.</b> Classements, profil coureur, avantages. L'expérience réservée aux membres au complet.</div><div class="d">accès membre</div></div>
+      <div class="phase"><div class="p">Palier 4</div><div><b>Sentiers.</b> Répertoire GPX, carte MapLibre, reconnaissance de surface. Brique découplée, déplaçable selon la priorité.</div><div class="d">sentiers</div></div>
+      <div class="phase"><div class="p">Palier 5</div><div><b>Durcissement.</b> Audit de sécurité, conformité Loi 25, accessibilité, tests, documentation, formation, transfert.</div><div class="d">conforme</div></div>
+    </div>
+    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Correspondance avec les lots :</b> le Palier 0 correspond au Lot 2 (banque d'heures), les Paliers 1 à 4 au Lot 3 (réalisation), le Palier 5 intègre le Lot 1 (audit de sécurité). Les quatre blocs à démontrer pour la subvention sont couverts au plus tard au Palier 4.</div>
+
+    <!-- ===== 7. OPTIONS À TIROIR ===== -->
+    <h2 id="tiroirs"><span class="h2n">7</span>Options à tiroir</h2>
+    <p class="lead">Un tronc commun, et des options que vous déclenchez. Chaque tiroir se retire sans casser le reste, ce qui permet d'ajuster le périmètre au budget.</p>
+    <div class="tiroir"><div><div class="t">Reconnaissance de surface automatique</div><div class="desc">Plancher : saisie manuelle de la répartition (déjà acceptée). Cran supérieur : détection automatique par segment plus correction dans le back-office.</div></div><div class="price todo">option</div></div>
+    <div class="tiroir"><div><div class="t">Coupe altimétrique colorée par surface</div><div class="desc">Croiser le type de terrain avec le profil d'altitude, à la manière de Komoot. Aucune dépendance externe, travail de rendu.</div></div><div class="price todo">option</div></div>
+    <div class="tiroir"><div><div class="t">Archives historiques Iskio</div><div class="desc">Intégration des résultats anciens (jusqu'aux années 1930). Donnée froide, faible impact produit, à traiter après le rachat.</div></div><div class="price todo">phase ultérieure</div></div>
+    <div class="tiroir"><div><div class="t">Barème avancé Coupe Québec trail</div><div class="desc">Plancher : barème par position. Crans : temps relatif au vainqueur, ou indice type ITRA au kilomètre-effort.</div></div><div class="price todo">option</div></div>
+    <div class="tiroir"><div><div class="t">Refonte du design system</div><div class="desc">Plancher : reprise du style du prototype. Cran : design system propre et cohérent.</div></div><div class="price todo">option</div></div>
+    <div class="tiroir"><div><div class="t">Serveur de tuiles auto-hébergé</div><div class="desc">Remplacer MapTiler par un serveur de tuiles Protomaps sur le VPS, pour supprimer l'abonnement et le verrouillage résiduel.</div></div><div class="price todo">option</div></div>
+    <div class="tiroir"><div><div class="t">Instance de secours (haute disponibilité)</div><div class="desc">Un second serveur pour la redondance, si Athlétisme Québec veut plus de garanties que le VPS unique.</div></div><div class="price todo">option</div></div>
+
+    <!-- ===== 8. COÛTS DE FONCTIONNEMENT ===== -->
+    <h2 id="couts"><span class="h2n">8</span>Coûts de fonctionnement</h2>
+    <p class="lead">Frais d'exploitation à la charge d'Athlétisme Québec, distincts du développement. Ordres de grandeur en dollars canadiens, hébergement au Québec pour la Loi 25.</p>
+
+    <h3>Modèle recommandé : un serveur unique au Québec, orchestré par Coolify</h3>
+    <p>Plutôt que d'empiler des abonnements facturés à l'usage, notre approche habituelle : un seul serveur hébergé au Québec, piloté par Coolify. Il mutualise l'application, la base de données, le stockage et les services annexes. Athlétisme Québec possède le serveur et garde la main sur ses déploiements.</p>
+    <table>
+      <tr><th scope="col">Poste</th><th scope="col">Ordre de grandeur</th></tr>
+      <tr><td>Serveur au Québec (4 à 8 cœurs, 8 à 16 Go)</td><td>30 à 90 $ par mois</td></tr>
+      <tr><td>Emails transactionnels (auth, réinitialisation)</td><td>0 à 30 $ par mois</td></tr>
+      <tr><td>Tuiles cartographiques (MapTiler, sinon auto-hébergé)</td><td>0 à 40 $ par mois</td></tr>
+      <tr><td>Nom de domaine et DNS</td><td>environ 20 à 40 $ par an</td></tr>
+      <tr><td><b>Total mensuel indicatif</b></td><td><b>environ 40 à 160 $ par mois</b></td></tr>
+    </table>
+    <div class="callout v2"><svg class="ico" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg><b>Arbitrage assumé :</b> un serveur unique n'a pas la redondance d'un service managé. Il est mitigé par les sauvegardes planifiées et les snapshots de l'hébergeur, et une instance de secours reste possible (voir tiroirs). L'exploitation est simplifiée par Coolify, et la formation du Palier 5 rend Athlétisme Québec autonome.</div>
+    <p>Alternative managée si la redondance clé en main est souhaitée (hébergement et base managés, plus MapTiler et emails) : environ 90 à 400 $ par mois, coûts à l'usage et moins de maîtrise directe. L'API Uplifter n'a pas de coût direct (token fourni dans le cadre de l'affiliation), Iskio n'a aucun frais récurrent après rachat, et les tables World Athletics sont gratuites.</p>
+
+    <!-- ===== 9. POINTS D'ATTENTION ===== -->
+    <h2 id="attention"><span class="h2n">9</span>Points d'attention</h2>
+    <p class="lead">Ce que le dérisquage a révélé, présenté sans détour.</p>
+    <div class="grid g2">
+      <div class="card c-pink"><h3 style="margin-top:0">Uplifter, la seule inconnue majeure</h3><p style="font-size:13px;margin-bottom:0">Pas de connexion déléguée ni de notifications automatiques (confirmé). Deux questions restent ouvertes : la stabilité du numéro de membre et les limites de débit. Elles ne se lèvent qu'avec un token de test, d'où le chiffrage conditionnel de cette brique. À noter : le lien de documentation fourni pointait vers une autre société homonyme, ce qui explique peut-être les difficultés de communication.</p></div>
+      <div class="card c-pink"><h3 style="margin-top:0">Données personnelles du prototype</h3><p style="font-size:13px;margin-bottom:0">Le prototype expose actuellement les noms et dates de naissance d'environ 12 000 coureurs via une clé publique. Cela présente les caractéristiques d'un incident de confidentialité. La qualification revient au conseil juridique d'Athlétisme Québec ; la remédiation technique est de notre côté et sera traitée en priorité.</p></div>
+      <div class="card c-yellow"><h3 style="margin-top:0">Rachat d'Iskio non finalisé</h3><p style="font-size:13px;margin-bottom:0">Pas encore d'accès à la base. Sans impact sur le calendrier : le calendrier public d'Iskio est accessible et sert de filet de sécurité pour construire le pipeline sans attendre le rachat.</p></div>
+      <div class="card c-yellow"><h3 style="margin-top:0">Consentement des résultats publics</h3><p style="font-size:13px;margin-bottom:0">La publication de résultats nominatifs relève du régime de consentement de la Loi 25. Point à cadrer avec le conseil juridique du client, notamment pour l'historique et les mineurs.</p></div>
+    </div>
+
+    <!-- ===== 10. ÉQUIPE ET TRACTR ===== -->
+    <h2 id="equipe"><span class="h2n">10</span>Équipe et TRACTR</h2>
+    <p class="lead">Studio de conception et de développement de produits numériques, à Montréal et en France depuis 2008. Nous construisons des outils avec des utilisateurs, pas des sites vitrines.</p>
+    <div class="facts">
+      <div class="fact"><div class="n">2008</div><div class="l">année de fondation</div></div>
+      <div class="fact"><div class="n">Montréal + France</div><div class="l">équipe sur deux fuseaux</div></div>
+      <div class="fact"><div class="n">6 spikes</div><div class="l">de dérisquage déjà menés sur ce projet</div></div>
+    </div>
+    <div class="team">
+      <div class="tcard"><div class="av"><img src="assets/av-olivier.png" alt="" onerror="this.style.display='none';this.parentElement.textContent='OT'"></div><div><div class="nm">Olivier Tarbès</div><div class="rl">Co-fondateur, CPO, Montréal</div><div class="bio">Vision produit et expérience utilisateur.<span class="role-line"><b>Sur Viens Courir :</b> cadrage produit, arbitrages de priorisation, interface.</span></div></div></div>
+      <div class="tcard"><div class="av"><img src="assets/av-pierre.png" alt="" onerror="this.style.display='none';this.parentElement.textContent='PC'"></div><div><div class="nm">Pierre Cabrière</div><div class="rl">Lead développeur full-stack, France</div><div class="bio">Architecture technique et intégrations.<span class="role-line"><b>Sur Viens Courir :</b> a mené le dérisquage technique et pilote l'architecture et les intégrations.</span></div></div></div>
+      <div class="tcard"><div class="av"><img src="assets/av-edouard.png" alt="" onerror="this.style.display='none';this.parentElement.textContent='ED'"></div><div><div class="nm">Édouard Demotes-Mainard</div><div class="rl">CTO, Montréal</div><div class="bio">Supervision technique et sécurité.<span class="role-line"><b>Sur Viens Courir :</b> revue d'architecture, sécurité et conformité Loi 25.</span></div></div></div>
+      <div class="tcard"><div class="av"><img src="assets/av-guillaume.png" alt="" onerror="this.style.display='none';this.parentElement.textContent='GC'"></div><div><div class="nm">Guillaume Commagnac</div><div class="rl">Directeur associé, France</div><div class="bio">Cadrage et relation client.<span class="role-line"><b>Sur Viens Courir :</b> contact de clôture et suivi de l'engagement.</span></div></div></div>
+    </div>
+
+    <!-- ===== 11. CONDITIONS COMMERCIALES ===== -->
+    <h2 id="conditions"><span class="h2n">11</span>Conditions commerciales</h2>
+    <p class="lead">Un cadre simple, sans mauvaise surprise, où Athlétisme Québec reste propriétaire de tout.</p>
+    <div class="grid g2">
+      <div class="card"><h3 style="margin-top:0">Modèle</h3><p style="font-size:13px;margin-bottom:0">Banque d'heures par palier, taux horaire précisé au devis. Le cadrage se vend à périmètre et prix fixes, pas en banque ouverte.</p></div>
+      <div class="card"><h3 style="margin-top:0">Jalons de facturation</h3><p style="font-size:13px;margin-bottom:0">Acompte à la signature, solde à la livraison de chaque palier.</p></div>
+      <div class="card"><h3 style="margin-top:0">Garanties</h3><p style="font-size:13px;margin-bottom:0">Revue de code, recette conjointe, code livré sur le dépôt d'Athlétisme Québec.</p></div>
+      <div class="card"><h3 style="margin-top:0">Maintenance</h3><p style="font-size:13px;margin-bottom:0">Banque d'heures dédiée, dimensionnée avec vous après la mise en ligne.</p></div>
+      <div class="card"><h3 style="margin-top:0">Socle technologique inclus</h3><p style="font-size:13px;margin-bottom:0">Payload, Next.js, MapLibre, Coolify : open source, sans frais de licence.</p></div>
+      <div class="card"><h3 style="margin-top:0">Cadre et sortie</h3><p style="font-size:13px;margin-bottom:0">Avenant avant tout dépassement, préavis de 30 jours, données et développements portables à tout moment.</p></div>
+    </div>
+
+    <!-- ===== 12. PROCHAINES ÉTAPES ===== -->
+    <h2 id="suite"><span class="h2n">12</span>Prochaines étapes</h2>
+    <p class="lead">Une porte d'entrée petite et concrète : le cadrage, qui lève la dernière inconnue avant de figer le devis.</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div class="txt"><b>Accès et token Uplifter.</b> Athlétisme Québec transmet les accès (dépôt, base) et sollicite un token de test auprès d'Uplifter.</div><div class="when">cette semaine</div></div>
+      <div class="step"><div class="num">2</div><div class="txt"><b>Palier de cadrage.</b> Test réel de l'API Uplifter, cadrage des règles de classement trail et du périmètre des résultats, déclenchement du volet juridique. Périmètre et prix fixes.</div><div class="when">banque de 10 à 15 h</div></div>
+      <div class="step"><div class="num">3</div><div class="txt"><b>Devis ferme.</b> À l'issue du cadrage, un devis à plus ou moins 20 pour 100 avec engagement de non-dépassement, périmètre priorisable par tiroirs.</div><div class="when">après cadrage</div></div>
+    </div>
+    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Le premier oui :</b> un palier de cadrage à périmètre et prix fixes (banque de 10 à 15 heures), à démarrer dès réception du token Uplifter. Il transforme la dernière inconnue en devis ferme.</div>
+
+  </main>
+</div>
+
+<script>
+/* Navigation : surligne l'entrée active au scroll + scroll doux au clic. NE PAS modifier. */
+const links=[...document.querySelectorAll('#nav a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+function onScroll(){
+  let i=secs.length-1;
+  for(let k=0;k<secs.length;k++){
+    if(secs[k].getBoundingClientRect().top>120){i=k-1;break}
+  }
+  if(i<0)i=0;
+  links.forEach(l=>l.classList.remove('active'));
+  if(links[i])links[i].classList.add('active');
+}
+document.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+links.forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+}));
+window.addEventListener('beforeprint',()=>document.querySelectorAll('details.fold').forEach(d=>d.open=true));
+</script>
+</body>
+</html>
