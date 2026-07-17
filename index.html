@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <!-- Source de vérité de la page publiée sur https://tractr.github.io/viens-courir-proposition/ — publier via ./publish.sh -->
 <title>TRACTR × Viens Courir : proposition de plateforme</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -38,7 +39,7 @@
   aside .brand .sb-blue{color:var(--acc);font-weight:700}
   aside .brand .sb-reg{color:var(--muted);font-weight:400}
   aside .brand .sb-bold{color:var(--ink);font-weight:700}
-  nav{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+  nav{display:flex;flex-direction:column;gap:2px}
   nav a{color:var(--ink);text-decoration:none;font-size:13px;padding:7px 10px;border:2px solid transparent;
     border-radius:var(--r);transition:.12s;display:flex;gap:9px;align-items:center;font-weight:500}
   nav a .n{color:var(--acc);font-family:var(--display);font-variant-numeric:tabular-nums;font-size:12px;font-weight:700;min-width:16px}
@@ -50,9 +51,9 @@
   .docnav a{flex:1;text-align:center;font-family:var(--display);font-size:10.5px;font-weight:700;padding:8px 6px;border:2px solid var(--border);border-radius:var(--r);text-decoration:none;color:var(--ink);background:#fff;box-shadow:2px 2px 0 var(--border-light);transition:.12s}
   .docnav a.active{background:var(--acc);color:#fff}
   .docnav a:hover:not(.active){background:var(--acc-soft)}
-  main{padding:46px 56px 90px;min-width:0}
+  main{padding:28px 56px 90px;min-width:0}
   .line-accent{width:56px;height:5px;background:var(--acc);margin:0 0 14px}
-  .cobrand{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+  .cobrand{display:flex;align-items:center;gap:18px;margin:0 0 48px;padding:16px 20px;border:2px solid var(--border);border-radius:var(--r);box-shadow:var(--sh)}
   .cobrand img{display:block;width:auto}
   .cobrand .cb-tractr{height:26px}
   .cobrand .cb-client{height:34px}
@@ -62,7 +63,7 @@
     color:#fff;background:var(--acc);border:2px solid var(--border);padding:5px 12px;border-radius:var(--r);box-shadow:3px 3px 0 var(--border-light);margin-bottom:16px}
   h1{font-family:var(--display);font-size:34px;letter-spacing:-.03em;margin:0 0 10px;font-weight:700;line-height:1.1}
   .tagline{color:var(--ink2);font-size:16px;margin:0 0 12px;max-width:62ch;line-height:1.5}
-  .meta{color:var(--muted);font-size:12.5px;font-family:var(--mono);padding-bottom:20px;border-bottom:2px solid var(--border)}
+  .meta{color:var(--muted);font-size:12.5px;font-family:var(--mono);max-width:none}
   h2{font-family:var(--display);font-size:24px;letter-spacing:-.02em;margin:54px 0 6px;font-weight:700;line-height:1.15;display:flex;align-items:center;gap:12px}
   h2 .h2n{font-family:var(--display);font-size:14px;font-weight:700;color:#fff;background:var(--acc);width:32px;height:32px;
     display:flex;align-items:center;justify-content:center;border:2px solid var(--border);border-radius:var(--r);box-shadow:3px 3px 0 var(--border-light);flex:none}
@@ -74,7 +75,20 @@
   .card.c-blue{background:var(--acc-soft)}.card.c-pink{background:var(--pink)}.card.c-green{background:var(--green)}.card.c-yellow{background:var(--yellow)}
   .grid{display:grid;gap:18px}
   .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
-  @media(max-width:920px){.wrap{grid-template-columns:1fr}aside{display:none}.g2,.g3{grid-template-columns:1fr}main{padding:28px 22px}}
+  /* burger mobile : bouton fixe + sidebar en tiroir */
+  .nav-burger{display:none;background:none;border:none;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+  .nav-burger span{display:block;width:18px;height:2.5px;background:var(--ink);border-radius:2px}
+  .nav-label{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .nav-backdrop{display:none;position:fixed;inset:0;z-index:55;background:rgba(26,26,46,.35)}
+  @media(max-width:920px){.wrap{grid-template-columns:1fr}
+    .cobrand-wrap{position:sticky;top:0;z-index:50;background:var(--bg);margin:0 -22px 48px;padding:12px 22px 4px}
+    .cobrand{flex-wrap:wrap;row-gap:14px;position:relative;background:var(--card-bg);padding-left:74px;margin:0}
+    .nav-burger{display:flex;position:absolute;left:0;top:0;bottom:0;width:52px;border-right:2px solid var(--border);padding:0}
+    aside{position:fixed;left:0;top:0;z-index:60;height:100vh;width:272px;padding:28px 18px;background:var(--bg);
+      transform:translateX(-110%);transition:transform .18s ease-out}
+    aside.open{transform:none}
+    .nav-backdrop.show{display:block}
+    .g2,.g3{grid-template-columns:1fr}main{padding:28px 22px 90px}}
   .pill{display:inline-block;font-family:var(--display);font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:var(--r);vertical-align:middle;letter-spacing:.04em;text-transform:uppercase;border:2px solid var(--border)}
   .pill.v1{background:var(--green);color:#0a3d20}
   .pill.v2{background:var(--yellow);color:#5c3d00}
@@ -84,12 +98,11 @@
   .pill.mid{background:var(--yellow);color:#5c3d00}
   .pill.high{background:var(--pink);color:#7a1340}
   .pill.todo{background:#fff;color:var(--muted);border-style:dashed}
-  .feat{font-family:var(--display);font-size:11px;color:#fff;background:var(--acc);padding:1px 7px;border-radius:3px;font-weight:700;white-space:nowrap}
+  .feat{font-family:var(--display);font-size:11px;color:#fff;background:var(--acc);padding:1px 7px;border-radius:3px;font-weight:700;white-space:nowrap;margin-right:7px}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0;background:var(--card-bg);border:2px solid var(--border);box-shadow:var(--sh)}
   th{font-family:var(--display);background:var(--acc);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;text-align:left;padding:9px 13px;border-bottom:2px solid var(--border)}
   td{text-align:left;padding:9px 13px;border-bottom:1.5px solid var(--border-light);vertical-align:top}
   tbody tr:last-child td,table tr:last-child td{border-bottom:none}
-  tr:nth-child(even) td{background:var(--bg-alt)}
   .ok{color:var(--v1ink);font-weight:600}.warn{color:var(--v2ink);font-weight:600}.bad{color:#cc0000;font-weight:600}.mut{color:var(--muted)}
   ul{margin:8px 0;padding-left:20px}li{margin:6px 0;max-width:74ch}
   .callout{border:2px solid var(--border);background:var(--acc-soft);padding:14px 18px;border-radius:var(--r);margin:18px 0;font-size:14px;color:var(--ink2);box-shadow:var(--sh)}
@@ -98,13 +111,13 @@
   .callout p{max-width:none}
   /* stack de couches techniques (présentation de technos / briques) */
   .stack{display:flex;flex-direction:column;gap:12px}
-  .layer{display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;background:var(--card-bg);
+  .layer{display:grid;grid-template-columns:170px 1fr auto;gap:18px;align-items:center;background:var(--card-bg);
     border:2px solid var(--border);border-radius:var(--r);padding:14px 18px;box-shadow:var(--sh)}
   .layer .tech{font-family:var(--display);font-weight:700;font-size:15px}
   .layer .tech small{display:block;color:var(--muted);font-weight:500;font-family:var(--mono);font-size:11px;margin-top:3px}
   .layer .tech .techlogo{width:36px;height:36px;border-radius:8px;display:block;margin-bottom:8px;border:2px solid var(--border);object-fit:contain;background:#fff}
   .layer .why{font-size:13.5px;color:var(--muted);max-width:none}
-  .techlink{font-family:var(--display);font-size:11px;font-weight:600;color:var(--acc);text-decoration:none;border:1.5px solid var(--acc);border-radius:3px;padding:1px 7px;margin-left:6px;white-space:nowrap}
+  .techlink{font-family:var(--display);font-size:11px;font-weight:600;color:var(--acc);text-decoration:none;border:1.5px solid var(--acc);border-radius:3px;padding:1px 7px;white-space:nowrap;justify-self:end}
   .techlink:hover{background:var(--acc-soft)}
   /* scopebox : périmètre inclus / exclu (hors scope, post-MVP) */
   .scopebox{border:2px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
@@ -124,10 +137,15 @@
   .step .when{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--acc-soft);padding:4px 10px;border-radius:3px;border:2px solid var(--border);white-space:nowrap}
   @media(max-width:560px){.step{grid-template-columns:auto 1fr}.step .when{grid-column:2;justify-self:start;margin-top:4px}}
   /* total budget (encadré accent plein) */
-  .tot{display:flex;justify-content:space-between;align-items:baseline;background:var(--acc);color:#fff;
+  .tot{background:var(--acc);color:#fff;
     border:2px solid var(--border);border-radius:var(--r);padding:16px 22px;margin-top:16px;box-shadow:4px 4px 0 var(--border-light)}
   .tot .mut{color:rgba(255,255,255,.82)}
   .tot b{font-family:var(--display);font-size:19px;letter-spacing:-.01em}
+  .tot-grid{display:grid;grid-template-columns:1fr auto;gap:6px 30px;margin-top:12px;align-items:baseline}
+  .tot-grid .th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.72);text-align:right}
+  .tot-grid .rl{font-size:13px;color:rgba(255,255,255,.82)}
+  .tot-grid .v{font-family:var(--display);font-size:15px;font-weight:600;text-align:right}
+  .tot-grid .devis{font-size:19px;letter-spacing:-.01em}
   /* schéma d'architecture interactif : sources -> plateforme -> base */
   .chip{font-family:var(--mono);font-size:11px;background:var(--acc-soft);border:1.5px solid var(--border);border-radius:4px;padding:3px 8px;color:var(--ink);white-space:nowrap}
   .chip b{font-family:var(--display);font-weight:700}
@@ -173,6 +191,10 @@
   .kpicards .card{margin:0;border-top:5px solid var(--acc)}
   .kpicards .lbl{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--acc);text-transform:uppercase}
   /* tiroir : option à la carte (devis à tiroir) */
+  .tiroir-filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+  .tiroir-filters button{font-family:var(--display);font-size:12px;font-weight:600;padding:6px 13px;border:2px solid var(--border);border-radius:var(--r);background:#fff;color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 var(--border-light);transition:.12s}
+  .tiroir-filters button:hover{background:var(--acc-soft)}
+  .tiroir-filters button.active{background:var(--acc);color:#fff}
   .tiroir{border:2px solid var(--border);border-radius:var(--r);padding:16px 18px;margin:14px 0;background:var(--card-bg);box-shadow:var(--sh);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
   .tiroir .t{font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:3px}
   .tiroir .desc{font-size:13px;color:var(--muted)}
@@ -228,10 +250,9 @@
 </head>
 <body>
 <div class="wrap">
+  <div class="nav-backdrop" id="navBackdrop"></div>
   <aside>
-    <div class="brand">
-      <div class="sb-title"><span class="sb-blue">Proposition de plateforme</span> <span class="sb-reg">pour</span> <span class="sb-bold">Viens Courir</span></div>
-    </div>
+    <div class="nav-label">Navigation</div>
     <nav id="nav">
       <a href="#resume"><span class="n">1</span>Résumé exécutif</a>
       <a href="#objectif"><span class="n">2</span>Objectif de la V1</a>
@@ -244,21 +265,24 @@
       <a href="#attention"><span class="n">9</span>Points d'attention</a>
       <a href="#suite"><span class="n">10</span>Prochaines étapes</a>
     </nav>
-    <div class="side-foot"><a href="mailto:guillaume@tractr.net">guillaume@tractr.net</a></div>
   </aside>
 
   <main>
     <!-- ===== HERO ===== -->
+    <div class="cobrand-wrap">
     <div class="cobrand">
+      <button class="nav-burger" id="navBurger" aria-label="Ouvrir la navigation"><span></span><span></span><span></span></button>
       <img class="cb-tractr" src="logo-tractr.png" alt="TRACTR">
       <span class="cb-x">×</span>
-      <span class="cb-wordmark">VIENS COURIR</span>
+      <img class="cb-client" src="logo-viens-courir.png" alt="Viens Courir">
+      <span class="cb-wordmark" style="margin-left:-8px">VIENS COURIR</span>
+      <span class="eyebrow" style="margin:0 0 0 auto">Proposition technique et commerciale</span>
     </div>
-    <div class="line-accent"></div>
-    <span class="eyebrow">Proposition technique et commerciale</span>
+    </div>
     <h1>La plateforme de référence de la course au Québec</h1>
     <p class="tagline">Un espace membre qui relie calendrier, classements, avantages et sentiers, bâti sur des fondations sécurisées et transférables à Athlétisme Québec.</p>
     <p class="meta">TRACTR pour Anselme Poher et Sarah Bergeron Larouche, Athlétisme Québec · juillet 2026</p>
+    <div class="line-accent" style="margin:20px 0 0"></div>
 
     <!-- ===== 1. RÉSUMÉ EXÉCUTIF ===== -->
     <h2 id="resume"><span class="h2n">1</span>Résumé exécutif</h2>
@@ -332,62 +356,70 @@
     <h2 id="stack"><span class="h2n">4</span>Stack et justification</h2>
     <p class="lead">Un socle open source, administrable, hébergé au Québec, et pensé pour rester la propriété d'Athlétisme Québec.</p>
     <div class="stack">
-      <div class="layer"><div class="tech">Payload CMS 3<small>back-office code-first</small></div><div class="why">Access control au champ près pour le floutage réservé aux membres, auth native, tâches planifiées, admin en français. <a class="techlink" href="https://payloadcms.com" target="_blank" rel="noopener">payloadcms.com ↗</a></div></div>
-      <div class="layer"><div class="tech">Next.js<small>front intégré</small></div><div class="why">Rendu serveur, SEO, un seul projet pour le site public et l'espace membre. <a class="techlink" href="https://nextjs.org" target="_blank" rel="noopener">nextjs.org ↗</a></div></div>
-      <div class="layer"><div class="tech">PostgreSQL<small>base de données</small></div><div class="why">Standard et portable. Collections administrables et tables applicatives cohabitent dans une même base. <a class="techlink" href="https://www.postgresql.org" target="_blank" rel="noopener">postgresql.org ↗</a></div></div>
-      <div class="layer"><div class="tech">MapLibre + MapTiler<small>cartographie</small></div><div class="why">Tuiles vectorielles, coloration du tracé par type de surface, style personnalisable. Bascule possible vers un serveur de tuiles auto-hébergé. <a class="techlink" href="https://maplibre.org" target="_blank" rel="noopener">maplibre.org ↗</a></div></div>
-      <div class="layer"><div class="tech">Coolify<small>hébergement au Québec</small></div><div class="why">Un serveur unique mutualise application, base, stockage et sauvegardes. Athlétisme Québec possède le serveur et ses déploiements. <a class="techlink" href="https://coolify.io" target="_blank" rel="noopener">coolify.io ↗</a></div></div>
+      <div class="layer"><div class="tech">Payload CMS 3<small>Back-office code-first</small></div><div class="why">Access control au champ près pour le floutage réservé aux membres, auth native, tâches planifiées, admin en français.</div><a class="techlink" href="https://payloadcms.com" target="_blank" rel="noopener">payloadcms.com ↗</a></div>
+      <div class="layer"><div class="tech">Next.js<small>Front intégré</small></div><div class="why">Rendu serveur, SEO, un seul projet pour le site public et l'espace membre.</div><a class="techlink" href="https://nextjs.org" target="_blank" rel="noopener">nextjs.org ↗</a></div>
+      <div class="layer"><div class="tech">PostgreSQL<small>Base de données</small></div><div class="why">Standard et portable. Collections administrables et tables applicatives cohabitent dans une même base.</div><a class="techlink" href="https://www.postgresql.org" target="_blank" rel="noopener">postgresql.org ↗</a></div>
+      <div class="layer"><div class="tech">MapLibre + MapTiler<small>Cartographie</small></div><div class="why">Tuiles vectorielles, coloration du tracé par type de surface, style personnalisable. Bascule possible vers un serveur de tuiles auto-hébergé.</div><a class="techlink" href="https://maplibre.org" target="_blank" rel="noopener">maplibre.org ↗</a></div>
+      <div class="layer"><div class="tech">Coolify<small>Hébergement au Québec</small></div><div class="why">Un serveur unique mutualise application, base, stockage et sauvegardes. Athlétisme Québec possède le serveur et ses déploiements.</div><a class="techlink" href="https://coolify.io" target="_blank" rel="noopener">coolify.io ↗</a></div>
     </div>
 
     <!-- ===== 5. PÉRIMÈTRE ET CHIFFRAGE ===== -->
     <h2 id="perimetre"><span class="h2n">5</span>Périmètre et chiffrage</h2>
-    <p class="lead">Découpage par épic et par ticket, chiffré en dollars canadiens. Devis ferme à plus ou moins 20 pour 100, établi sur la base du cadrage déjà réalisé (les spikes de dérisquage).</p>
+    <p class="lead">Découpage par épic et par ticket. Les temps incluent l'analyse, le développement, la gestion de projet, les tests ainsi que les déploiements. Devis ferme, facturation plafonnée à plus 20 pour 100 du montant prévu, établi sur la base du cadrage déjà réalisé (les spikes de dérisquage).</p>
 
     <table>
-      <tr><th scope="col">Épic</th><th scope="col">Ticket</th><th scope="col">Risque</th><th scope="col" style="text-align:right">Prix (CAD)</th></tr>
-      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
-      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><th scope="col" style="width:195px">Épic</th><th scope="col">Ticket</th><th scope="col">Risque</th><th scope="col" style="text-align:right">Jours</th><th scope="col" style="text-align:right">Prix (CAD)</th></tr>
+      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
 
-      <tr><td rowspan="3"><span class="feat">2</span> Identité Uplifter <span class="pill low">périmètre ferme</span></td><td>Liaison compte membre (<code>is_member</code>, <code>fetch</code>) et écran</td><td><span class="pill high">élevé</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
-      <tr><td>Synchronisation du statut (<code>changed_members</code>) et droits</td><td><span class="pill high">élevé</span></td><td style="text-align:right">4&nbsp;550&nbsp;$</td></tr>
-      <tr><td>Gestion erreurs, limites de débit, supervision</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2&nbsp;730&nbsp;$</td></tr>
+      <tr><td rowspan="3"><span class="feat">2</span> Identité Uplifter</td><td>Liaison compte membre et écran</td><td><span class="pill high">élevé</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
+      <tr><td>Synchronisation du statut et droits</td><td><span class="pill high">élevé</span></td><td style="text-align:right">3&nbsp;j</td><td style="text-align:right">4&nbsp;200&nbsp;$</td></tr>
+      <tr><td>Gestion erreurs, limites de débit, supervision</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">3</span> Calendrier et Iskio</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Pipeline d'ingestion (staging, normalisation, dédoublonnage, corrections persistantes)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">4&nbsp;550&nbsp;$</td></tr>
-      <tr><td>Récupération Iskio (filet de sécurité)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
-      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
+      <tr><td rowspan="4"><span class="feat">3</span> Calendrier et Iskio</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Pipeline d'ingestion (staging, normalisation, dédoublonnage, corrections persistantes)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">3&nbsp;j</td><td style="text-align:right">4&nbsp;200&nbsp;$</td></tr>
+      <tr><td>Récupération Iskio (filet de sécurité)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
 
-      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Tables World Athletics (formule)</td><td><span class="pill low">faible</span></td><td style="text-align:right">780&nbsp;$</td></tr>
-      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
-      <tr><td>Rattachement résultat et membre (numéro dans le CSV dès 2027) et attribution historique</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
-      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;730&nbsp;$</td></tr>
+      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Tables World Athletics (formule)</td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">700&nbsp;$</td></tr>
+      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
+      <tr><td>Rattachement résultat et membre (numéro dans le CSV dès 2027) et attribution historique</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">3&nbsp;250&nbsp;$</td></tr>
-      <tr><td>Reconnaissance de surface hybride (auto OSM et éditeur de correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">3&nbsp;640&nbsp;$</td></tr>
-      <tr><td>Profil d'élévation, favoris, commentaires</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;560&nbsp;$</td></tr>
+      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
+      <tr><td>Reconnaissance de surface hybride (auto OSM et éditeur de correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
+      <tr><td>Profil d'élévation, favoris, commentaires</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
 
-      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;430&nbsp;$</td></tr>
+      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
 
-      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">780&nbsp;$</td></tr>
+      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">700&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>EFVP : cadre et gabarits (substance juridique portée par le conseil du client)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;560&nbsp;$</td></tr>
-      <tr><td>Journaux d'audit (minimal, via versioning Payload), export et suppression de compte</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;170&nbsp;$</td></tr>
-      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;170&nbsp;$</td></tr>
-      <tr><td>Audit de sécurité (Lot 1, passe ciblée)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;170&nbsp;$</td></tr>
+      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>EFVP : cadre et gabarits (substance juridique portée par le conseil du client)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td>Journaux d'audit (minimal, via versioning Payload), export et suppression de compte</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td>Audit de sécurité (Lot 1, passe ciblée)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
 
-      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO (rendu serveur, données structurées Schema.org sur les courses) et accessibilité WCAG 2.1 AA (niveau de référence légale pour un organisme parapublic : navigation clavier, lecteurs d'écran, contrastes)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
-      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;730&nbsp;$</td></tr>
-      <tr><td>Documentation, formation, transfert (back-office Payload auto-documenté)</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;340&nbsp;$</td></tr>
+      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO (rendu serveur, données structurées Schema.org sur les courses) et accessibilité WCAG 2.1 AA (niveau de référence légale pour un organisme parapublic : navigation clavier, lecteurs d'écran, contrastes)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
+      <tr><td>Documentation, formation, transfert (back-office Payload auto-documenté)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
     </table>
 
-    <div class="tot"><span class="mut">Total périmètre ferme V1</span><b>70&nbsp;070&nbsp;$ CAD &nbsp;·&nbsp; ±20 %</b></div>
+    <div class="tot">
+      <span class="mut">Total périmètre V1</span>
+      <div class="tot-grid">
+        <span></span><span class="th">Devis</span>
+        <span class="rl">Jours</span><span class="v devis">47,5&nbsp;j</span>
+        <span class="rl">Montant (CAD)</span><span class="v devis">66&nbsp;500&nbsp;$</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 0;padding:12px 0 0;border-top:2px solid rgba(255,255,255,.25)"><span style="font-size:13px;color:rgba(255,255,255,.82)">Marge de risque (+20&nbsp;%)</span><span style="font-family:var(--display);font-size:13px">+9,5&nbsp;j &nbsp;·&nbsp; +13&nbsp;300&nbsp;$</span></div>
+    </div>
+    <p class="note">Facturation au temps réellement passé, plafonnée à plus 20 pour 100 du devis (79 800 dollars au maximum) : TRACTR livre l'intégralité du périmètre défini et assume tout dépassement au-delà. Chiffrage établi sur le cadrage déjà réalisé. Le poste Sécurité et Loi 25 couvre le volet technique et les gabarits; l'analyse juridique reste portée par le conseil d'Athlétisme Québec. Un audit de sécurité externe complet ou des garanties contractuelles additionnelles seraient chiffrés à part.</p>
     <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Réconciliation des résultats : déterministe, confirmé en réunion.</b> À partir de janvier 2027, Athlétisme Québec impose une colonne « numéro de membre Uplifter » dans les fichiers des chronométreurs ; les non-affiliés reçoivent une adhésion journalière prise automatiquement à l'inscription, qui fournit ce numéro. Chaque résultat porte donc un identifiant : simple import, pas de rapprochement flou. Pour 2026 et l'historique (une quinzaine d'événements certifiés), l'effort minimal est accepté par le client. Seul point ouvert, laissé hors chiffrage : si une même personne peut recevoir plusieurs numéros via des adhésions journalières, une déduplication manuelle légère de profils sera nécessaire, à vérifier au démarrage dès obtention du token.</div>
-    <p class="note">Prix par ligne, enveloppe ferme à plus ou moins 20 pour 100 (soit environ 56 100 à 84 100 dollars canadiens au global). Hors gestion de projet et marge de risque contractuelle. Établi sur la base du cadrage déjà réalisé. Le poste Sécurité et Loi 25 est volontairement resserré (environ 5 000 dollars) : la substance juridique de l'EFVP est portée par le conseil du client et l'audit du Lot 1 est une passe ciblée ; un audit externe complet ferait l'objet d'une ligne distincte.</p>
 
     <!-- ===== 6. PHASAGE ET JALONS ===== -->
     <h2 id="jalons"><span class="h2n">6</span>Phasage et jalons</h2>
@@ -404,16 +436,23 @@
 
     <!-- ===== 7. OPTIONS À TIROIR ===== -->
     <h2 id="tiroirs"><span class="h2n">7</span>Options à tiroir</h2>
-    <p class="lead">Un tronc commun, et des options que vous déclenchez. Chaque tiroir se retire sans casser le reste, ce qui permet d'ajuster le périmètre au budget.</p>
-    <div class="tiroir"><div><div class="t">Coupe altimétrique colorée par surface</div><div class="desc">Croiser le type de terrain avec le profil d'altitude, à la manière de Komoot. Aucune dépendance externe, travail de rendu.</div></div><div class="price todo">option</div></div>
-    <div class="tiroir"><div><div class="t">Archives historiques Iskio</div><div class="desc">Intégration des résultats anciens (jusqu'aux années 1930). Donnée froide, faible impact produit, à traiter après le rachat.</div></div><div class="price todo">phase ultérieure</div></div>
-    <div class="tiroir"><div><div class="t">Barème avancé Coupe Québec trail</div><div class="desc">Plancher : barème par position. Crans : temps relatif au vainqueur, ou indice type ITRA au kilomètre-effort.</div></div><div class="price todo">option</div></div>
-    <div class="tiroir"><div><div class="t">Performance ajustée à l'âge (age grading)</div><div class="desc">Facteurs WMA sur le profil du coureur, en parallèle du classement brut. Intéresse surtout les vétérans. Hors classement officiel.</div></div><div class="price todo">V2</div></div>
-    <div class="tiroir"><div><div class="t">Ambassadeurs de sentiers et QR codes</div><div class="desc">Parrainage de sentiers par des ambassadeurs et QR codes sur le terrain. Fonctions de confort, hors cœur membre.</div></div><div class="price todo">V2</div></div>
-    <div class="tiroir"><div><div class="t">Graphiques d'évolution de performance</div><div class="desc">Courbes de progression sur le profil membre. Explicitement évoqué « plutôt pour une V2 » par le client.</div></div><div class="price todo">V2</div></div>
-    <div class="tiroir"><div><div class="t">Refonte du design system</div><div class="desc">Plancher : reprise du style du prototype. Cran : design system propre et cohérent.</div></div><div class="price todo">option</div></div>
-    <div class="tiroir"><div><div class="t">Serveur de tuiles auto-hébergé</div><div class="desc">Remplacer MapTiler par un serveur de tuiles Protomaps sur le VPS, pour supprimer l'abonnement et le verrouillage résiduel.</div></div><div class="price todo">option</div></div>
-    <div class="tiroir"><div><div class="t">Instance de secours (haute disponibilité)</div><div class="desc">Un second serveur pour la redondance, si Athlétisme Québec veut plus de garanties que le VPS unique.</div></div><div class="price todo">option</div></div>
+    <p class="lead">Un tronc commun, et des options que vous déclenchez. Chaque tiroir se retire sans casser le reste, ce qui permet d'ajuster le périmètre au budget. Ces options ne sont pas encore évaluées et feraient l'objet d'un mandat d'analyse spécifique avant chiffrage.</p>
+    <div class="tiroir-filters" id="tiroirFilters">
+      <button class="active" data-filter="all">Tout</button>
+      <button data-filter="v1">Option V1</button>
+      <button data-filter="v2">V2</button>
+      <button data-filter="later">Phase ultérieure</button>
+    </div>
+    <div class="tiroir" data-tag="v1"><div><div class="t">Coupe altimétrique colorée par surface</div><div class="desc">Croiser le type de terrain avec le profil d'altitude, à la manière de Komoot. Aucune dépendance externe, travail de rendu.</div></div><div class="price todo">Option V1</div></div>
+    <div class="tiroir" data-tag="v1"><div><div class="t">Barème avancé Coupe Québec trail</div><div class="desc">Base : barème par position. Avancé : temps relatif au vainqueur, ou indice type ITRA au kilomètre-effort.</div></div><div class="price todo">Option V1</div></div>
+    <div class="tiroir" data-tag="v1"><div><div class="t">Refonte du design system</div><div class="desc">Base : reprise du style du prototype. Avancé : design system propre et cohérent.</div></div><div class="price todo">Option V1</div></div>
+    <div class="tiroir" data-tag="v1"><div><div class="t">Serveur de tuiles auto-hébergé</div><div class="desc">Remplacer MapTiler par un serveur de tuiles Protomaps sur le VPS, pour supprimer l'abonnement et le verrouillage résiduel.</div></div><div class="price todo">Option V1</div></div>
+    <div class="tiroir" data-tag="v1"><div><div class="t">Instance de secours (haute disponibilité)</div><div class="desc">Un second serveur pour la redondance, si Athlétisme Québec veut plus de garanties que le VPS unique.</div></div><div class="price todo">Option V1</div></div>
+    <div class="tiroir" data-tag="v2"><div><div class="t">Performance ajustée à l'âge (age grading)</div><div class="desc">Facteurs WMA sur le profil du coureur, en parallèle du classement brut. Intéresse surtout les vétérans. Hors classement officiel.</div></div><div class="price todo">V2</div></div>
+    <div class="tiroir" data-tag="v2"><div><div class="t">Ambassadeurs de sentiers et QR codes</div><div class="desc">Parrainage de sentiers par des ambassadeurs et QR codes sur le terrain. Fonctions de confort, hors cœur membre.</div></div><div class="price todo">V2</div></div>
+    <div class="tiroir" data-tag="v2"><div><div class="t">Graphiques d'évolution de performance</div><div class="desc">Courbes de progression sur le profil membre. Explicitement évoqué « plutôt pour une V2 » par le client.</div></div><div class="price todo">V2</div></div>
+    <div class="tiroir" data-tag="later"><div><div class="t">Application mobile (Expo)</div><div class="desc">Application native iOS et Android en React Native (Expo), partageant le code du web. Suivi GPS des courses en temps réel et consultation des cartes et résultats hors ligne. Prolongement naturel de la plateforme, à explorer une fois la V1 en service.</div></div><div class="price todo">Phase ultérieure</div></div>
+    <div class="tiroir" data-tag="later"><div><div class="t">Archives historiques Iskio</div><div class="desc">Intégration des résultats anciens (jusqu'aux années 1930). Donnée froide, faible impact produit, à traiter après le rachat.</div></div><div class="price todo">Phase ultérieure</div></div>
 
     <!-- ===== 8. COÛTS DE FONCTIONNEMENT ===== -->
     <h2 id="couts"><span class="h2n">8</span>Coûts de fonctionnement</h2>
@@ -426,8 +465,8 @@
       <tr><td>Serveur au Québec (4 à 8 cœurs, 8 à 16 Go)</td><td>30 à 90 $ par mois</td></tr>
       <tr><td>Emails transactionnels (auth, réinitialisation)</td><td>0 à 30 $ par mois</td></tr>
       <tr><td>Tuiles cartographiques (MapTiler, sinon auto-hébergé)</td><td>0 à 40 $ par mois</td></tr>
-      <tr><td>Nom de domaine et DNS</td><td>environ 20 à 40 $ par an</td></tr>
-      <tr><td><b>Total mensuel indicatif</b></td><td><b>environ 40 à 160 $ par mois</b></td></tr>
+      <tr><td>Nom de domaine et DNS</td><td>environ 2 à 4 $ par mois</td></tr>
+      <tr><td><b>Total mensuel indicatif</b></td><td><b>environ 35 à 165 $ par mois</b></td></tr>
     </table>
     <div class="callout v2"><svg class="ico" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg><b>Arbitrage assumé :</b> un serveur unique n'a pas la redondance d'un service managé. Il est mitigé par les sauvegardes planifiées et les snapshots de l'hébergeur, et une instance de secours reste possible (voir tiroirs). L'exploitation est simplifiée par Coolify, et la formation du Palier 5 rend Athlétisme Québec autonome.</div>
     <p>Alternative managée si la redondance clé en main est souhaitée (hébergement et base managés, plus MapTiler et emails) : environ 90 à 400 $ par mois, coûts à l'usage et moins de maîtrise directe. L'API Uplifter n'a pas de coût direct (token fourni dans le cadre de l'affiliation), Iskio n'a aucun frais récurrent après rachat, et les tables World Athletics sont gratuites.</p>
@@ -446,11 +485,16 @@
     <h2 id="suite"><span class="h2n">10</span>Prochaines étapes</h2>
     <p class="lead">Le cadrage est fait et ce document est le devis ferme. Il reste à le valider et à lancer la réalisation.</p>
     <div class="steps">
-      <div class="step"><div class="num">1</div><div class="txt"><b>Validation du devis.</b> Athlétisme Québec valide le périmètre et l'enveloppe à plus ou moins 20 pour 100, priorisable par tiroirs.</div><div class="when">cette semaine</div></div>
+      <div class="step"><div class="num">1</div><div class="txt"><b>Validation du devis.</b> Athlétisme Québec valide le périmètre et le budget. Facturation au temps réellement passé, plafonnée à plus 20 pour 100 du devis (79 800 $ au maximum) : TRACTR s'engage à livrer l'intégralité du périmètre défini et assume tout dépassement au-delà de ce plafond.</div><div class="when">cette semaine</div></div>
       <div class="step"><div class="num">2</div><div class="txt"><b>Accès et token Uplifter.</b> Athlétisme Québec transmet les accès (dépôt, base), sollicite le token auprès d'Uplifter et lance le volet juridique Loi 25. En parallèle du socle.</div><div class="when">au lancement</div></div>
       <div class="step"><div class="num">3</div><div class="txt"><b>Démarrage du Palier 1.</b> Mise en place du socle. Le comportement de l'API se vérifie dès réception du token, sans bloquer le socle.</div><div class="when">dès validation</div></div>
     </div>
-    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Le premier oui :</b> valider ce devis ferme (périmètre priorisable par tiroirs, enveloppe à plus ou moins 20 pour 100) et lancer le socle. Le cadrage, déjà réalisé, n'est plus une étape à financer.</div>
+    <div class="callout v1"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Le premier oui :</b> valider ce devis ferme (facturation au temps réel, plafonnée à plus 20 pour 100 du montant prévu, périmètre garanti) et lancer le socle. Le cadrage, déjà réalisé, n'est plus une étape à financer.</div>
+
+    <div class="card">
+      <b style="font-family:var(--display)">Contacts</b>
+      <p style="margin:8px 0 0;font-size:13.5px">Olivier Tarbès : <a href="mailto:olivier@tractr.net">olivier@tractr.net</a><br>Pierre Cabrière : <a href="mailto:pierre@tractr.net">pierre@tractr.net</a></p>
+    </div>
 
   </main>
 </div>
@@ -474,8 +518,25 @@ const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches
 links.forEach(a=>a.addEventListener('click',e=>{
   e.preventDefault();
   document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+  closeDrawer();
 }));
-window.addEventListener('beforeprint',()=>document.querySelectorAll('details.fold').forEach(d=>d.open=true));
+/* Burger mobile : ouvre/ferme la sidebar en tiroir */
+const drawer=document.querySelector('aside'),burger=document.getElementById('navBurger'),backdrop=document.getElementById('navBackdrop');
+function closeDrawer(){drawer.classList.remove('open');backdrop.classList.remove('show')}
+burger.addEventListener('click',()=>{drawer.classList.toggle('open');backdrop.classList.toggle('show',drawer.classList.contains('open'))});
+backdrop.addEventListener('click',closeDrawer);
+/* Filtres des options à tiroir par tag */
+const tiroirFilters=document.getElementById('tiroirFilters');
+if(tiroirFilters){
+  const tiroirs=[...document.querySelectorAll('.tiroir')];
+  tiroirFilters.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    tiroirFilters.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const f=b.dataset.filter;
+    tiroirs.forEach(t=>t.style.display=(f==='all'||t.dataset.tag===f)?'':'none');
+  }));
+}
+window.addEventListener('beforeprint',()=>{document.querySelectorAll('details.fold').forEach(d=>d.open=true);document.querySelectorAll('.tiroir').forEach(t=>t.style.display='');});
 
 /* Schéma d'architecture interactif : connecteurs SVG + particules animées, coordonnées calculées depuis le DOM réel (robuste au responsive). */
 (function(){
