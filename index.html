@@ -244,6 +244,17 @@
   details.fold>summary:hover{background:#dcdcff}
   details.fold .fold-body{padding:2px 18px 16px}
   details.fold .fold-body>:first-child{margin-top:6px}
+  /* note de périmètre dans une cellule de chiffrage (inclus / exclu) */
+  details.scope{display:inline}
+  details.scope>summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:4px;
+    font-family:var(--display);font-size:11px;font-weight:700;color:var(--acc);letter-spacing:.02em;white-space:nowrap;
+    border:2px solid var(--border-light);border-radius:var(--r);padding:0 7px;margin-left:6px;background:var(--acc-soft)}
+  details.scope>summary::-webkit-details-marker{display:none}
+  details.scope>summary:hover{border-color:var(--border)}
+  details.scope[open]>summary{background:var(--acc);color:#fff;border-color:var(--border)}
+  details.scope .eye{width:12px;height:12px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  details.scope .sc{margin:8px 0 0;font-size:12px;line-height:1.55;color:var(--muted)}
+  details.scope .sc b{color:var(--ink);font-family:var(--display);font-size:11px;letter-spacing:.03em;text-transform:uppercase}
   @media print{aside{display:none}.wrap{grid-template-columns:1fr}main{padding:0}body::before{display:none}
     .card,.layer,.scopebox,.tiroir,table,.flowmap,.fm-core,.tot,.callout,details.fold,.startbox,.step{box-shadow:none}h2{break-after:avoid}table,.card,.flowmap{break-inside:avoid}}
 </style>
@@ -290,7 +301,7 @@
 
     <div class="grid g3 kpicards">
       <div class="card"><div class="lbl">Dérisquage</div><b style="font-size:17px">6 spikes menés</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">API probée, données mesurées, formules reproduites, pas de promesses</p></div>
-      <div class="card"><div class="lbl">Inconnue restante</div><b style="font-size:17px">Une seule</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">Le comportement réel de l'API Uplifter, à lever avec un token de test</p></div>
+      <div class="card"><div class="lbl">Inconnue restante</div><b style="font-size:17px">Marginale</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">API Uplifter documentée : trois endpoints confirmés, reste l'identifiant d'instance</p></div>
       <div class="card"><div class="lbl">Socle</div><b style="font-size:17px">Payload + Coolify</b><p style="margin:6px 0 0;font-size:13px;color:var(--muted)">Hébergé au Québec, propriété et autonomie pour Athlétisme Québec</p></div>
     </div>
 
@@ -369,65 +380,63 @@
 
     <table>
       <tr><th scope="col" style="width:195px">Épic</th><th scope="col">Ticket</th><th scope="col">Risque</th><th scope="col" style="text-align:right">Jours</th><th scope="col" style="text-align:right">Prix (CAD)</th></tr>
-      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
-      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td rowspan="4"><span class="feat">1</span> Socle plateforme</td><td>Setup Payload, PostgreSQL, CI/CD, hébergement Coolify</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Auth, rôles, access control (floutage membre)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Modèle de données cible (collections)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
+      <tr><td>Migration des données du prototype, remédiation</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
 
-      <tr><td rowspan="3"><span class="feat">2</span> Identité Uplifter</td><td>Liaison compte membre et écran</td><td><span class="pill high">élevé</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
-      <tr><td>Synchronisation du statut et droits</td><td><span class="pill high">élevé</span></td><td style="text-align:right">3&nbsp;j</td><td style="text-align:right">4&nbsp;200&nbsp;$</td></tr>
-      <tr><td>Gestion erreurs, limites de débit, supervision</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
+      <tr><td rowspan="3"><span class="feat">2</span> Espace membre et liaison Uplifter</td><td>Parcours de liaison du compte membre et écrans associés<details class="scope"><summary><svg class="eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>périmètre</summary><p class="sc"><b>Inclus</b> : écran de liaison (numéro de membre et date de naissance), vérification auprès d'Uplifter, rattachement au compte local, affichage du statut d'adhésion dans le profil, traitement des quatre réponses documentées par l'API (adhésion active, membre sans adhésion active, date de naissance non concordante, numéro inexistant).</p><p class="sc"><b>Exclu</b> : connexion déléguée et authentification unique, qu'Uplifter n'offre pas ; création ou modification d'adhésions, qui restent dans Uplifter ; rattachement d'un même compte à plusieurs numéros de membre.</p></details></td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Synchronisation incrémentale des statuts et droits (endpoint changed_members)<details class="scope"><summary><svg class="eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>périmètre</summary><p class="sc"><b>Inclus</b> : récupération des membres modifiés, pagination des résultats, mise à jour des statuts d'adhésion et des droits d'accès qui en découlent, reprise après interruption, journalisation des écarts.</p><p class="sc"><b>Exclu</b> : notification en temps réel, l'API n'offrant pas de webhook ; synchronisation des données de facturation et de paiement ; reprise de l'historique d'adhésions antérieur à la mise en service.</p></details></td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;410&nbsp;$</td></tr>
+      <tr><td>Gestion des erreurs, limites de débit, supervision<details class="scope"><summary><svg class="eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>périmètre</summary><p class="sc"><b>Inclus</b> : traitement des codes de retour documentés (jeton invalide, quota dépassé, erreur serveur), temporisation progressive sur le quota de 5 requêtes par minute et par numéro de membre, alerte en cas d'échec répété de la synchronisation.</p><p class="sc"><b>Exclu</b> : adaptation à une évolution de l'API Uplifter (nouveaux endpoints, changement de format ou de règles d'authentification), qui ferait l'objet d'un avenant.</p></details></td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">602,50&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">3</span> Calendrier et Iskio</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Pipeline d'ingestion (staging, normalisation, dédoublonnage, corrections persistantes)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">3&nbsp;j</td><td style="text-align:right">4&nbsp;200&nbsp;$</td></tr>
-      <tr><td>Récupération Iskio (filet de sécurité)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
-      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
+      <tr><td rowspan="2"><span class="feat">3</span> Calendrier</td><td>Modèle événements, éditions, lieux, séries</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Front calendrier (filtres, carte, fiches) et rapports</td><td><span class="pill low">faible</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;012,50&nbsp;$</td></tr>
 
-      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Tables World Athletics (formule)</td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">700&nbsp;$</td></tr>
-      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
-      <tr><td>Rattachement résultat et membre (numéro dans le CSV dès 2027) et attribution historique</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
-      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
+      <tr><td rowspan="5"><span class="feat">4</span> Résultats et classement</td><td>Import CSV (parseur repris) et normalisation</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Tables World Athletics (formule)</td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">602,50&nbsp;$</td></tr>
+      <tr><td>Moteur de scoring versionné</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;012,50&nbsp;$</td></tr>
+      <tr><td>Rattachement résultat et membre (numéro dans le CSV dès 2027) et attribution historique</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
+      <tr><td>Front classements et profil coureur</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;410&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
-      <tr><td>Reconnaissance de surface hybride (auto OSM et éditeur de correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;500&nbsp;$</td></tr>
-      <tr><td>Profil d'élévation, favoris, commentaires</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td rowspan="4"><span class="feat">5</span> Sentiers et GPX</td><td>Collection sentiers, import GPX, fiches</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Migration MapLibre, MapTiler, composant carte</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;410&nbsp;$</td></tr>
+      <tr><td>Reconnaissance de surface hybride (auto OSM et éditeur de correction)</td><td><span class="pill mid">moyen</span></td><td style="text-align:right">2,5&nbsp;j</td><td style="text-align:right">3&nbsp;012,50&nbsp;$</td></tr>
+      <tr><td>Profil d'élévation, favoris, commentaires</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
 
-      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td><span class="feat">6</span> Avantages membres</td><td>Partenaires, codes permanents, accès conditionnel</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
 
-      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">700&nbsp;$</td></tr>
+      <tr><td rowspan="2"><span class="feat">7</span> Contenu éditorial</td><td>Actualités, pages, sections, plans (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Calculateur d'allure et de VAM (repris)</td><td><span class="pill low">faible</span></td><td style="text-align:right">0,5&nbsp;j</td><td style="text-align:right">602,50&nbsp;$</td></tr>
 
-      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>EFVP : cadre et gabarits (substance juridique portée par le conseil du client)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
-      <tr><td>Journaux d'audit (minimal, via versioning Payload), export et suppression de compte</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
-      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
-      <tr><td>Audit de sécurité (Lot 1, passe ciblée)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;400&nbsp;$</td></tr>
+      <tr><td rowspan="4"><span class="feat">8</span> Sécurité et Loi 25</td><td>EFVP : cadre et gabarits (substance juridique portée par le conseil du client)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
+      <tr><td>Journaux d'audit (minimal, via versioning Payload), export et suppression de compte</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
+      <tr><td>Minimisation des données, chiffrement, secrets</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
+      <tr><td>Audit de sécurité (Lot 1, passe ciblée)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1&nbsp;j</td><td style="text-align:right">1&nbsp;205&nbsp;$</td></tr>
 
-      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO (rendu serveur, données structurées Schema.org sur les courses) et accessibilité WCAG 2.1 AA (niveau de référence légale pour un organisme parapublic : navigation clavier, lecteurs d'écran, contrastes)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
-      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;800&nbsp;$</td></tr>
-      <tr><td>Documentation, formation, transfert (back-office Payload auto-documenté)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">2&nbsp;100&nbsp;$</td></tr>
+      <tr><td rowspan="3"><span class="feat">9</span> Transverse et livraison</td><td>SEO (rendu serveur, données structurées Schema.org sur les courses) et accessibilité WCAG 2.1 AA (niveau de référence légale pour un organisme parapublic : navigation clavier, lecteurs d'écran, contrastes)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
+      <tr><td>Tests de bout en bout</td><td><span class="pill low">faible</span></td><td style="text-align:right">2&nbsp;j</td><td style="text-align:right">2&nbsp;410&nbsp;$</td></tr>
+      <tr><td>Documentation, formation, transfert (back-office Payload auto-documenté)</td><td><span class="pill low">faible</span></td><td style="text-align:right">1,5&nbsp;j</td><td style="text-align:right">1&nbsp;807,50&nbsp;$</td></tr>
     </table>
 
     <div class="tot">
       <span class="mut">Total périmètre V1</span>
       <div class="tot-grid">
         <span></span><span class="th">Devis</span>
-        <span class="rl">Jours</span><span class="v devis">47,5&nbsp;j</span>
-        <span class="rl">Montant (CAD)</span><span class="v devis">66&nbsp;500&nbsp;$</span>
+        <span class="rl">Jours</span><span class="v devis">40&nbsp;j</span>
+        <span class="rl">Montant (CAD)</span><span class="v devis">48&nbsp;200&nbsp;$</span>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 0;padding:12px 0 0;border-top:2px solid rgba(255,255,255,.25)"><span style="font-size:13px;color:rgba(255,255,255,.82)">Marge de risque (+20&nbsp;%)</span><span style="font-family:var(--display);font-size:13px">+9,5&nbsp;j &nbsp;·&nbsp; +13&nbsp;300&nbsp;$</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 0;padding:12px 0 0;border-top:2px solid rgba(255,255,255,.25)"><span style="font-size:13px;color:rgba(255,255,255,.82)">Marge de risque (+20&nbsp;%)</span><span style="font-family:var(--display);font-size:13px">+8&nbsp;j &nbsp;·&nbsp; +9&nbsp;640&nbsp;$</span></div>
     </div>
-    <p class="note">Facturation au temps réellement passé, plafonnée à plus 20 pour 100 du devis (79 800 dollars au maximum) : TRACTR livre l'intégralité du périmètre défini et assume tout dépassement au-delà. Chiffrage établi sur le cadrage déjà réalisé. Le poste Sécurité et Loi 25 couvre le volet technique et les gabarits; l'analyse juridique reste portée par le conseil d'Athlétisme Québec. Un audit de sécurité externe complet ou des garanties contractuelles additionnelles seraient chiffrés à part.</p>
+    <p class="note">Facturation au temps réellement passé, plafonnée à plus 20 pour 100 du devis (57 840 dollars au maximum) : TRACTR livre l'intégralité du périmètre défini et assume tout dépassement au-delà. Chiffrage établi sur le cadrage déjà réalisé. Le poste Sécurité et Loi 25 couvre le volet technique et les gabarits; l'analyse juridique reste portée par le conseil d'Athlétisme Québec. Un audit de sécurité externe complet ou des garanties contractuelles additionnelles seraient chiffrés à part.</p>
     <div class="callout"><svg class="ico" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><b>Réconciliation des résultats : déterministe, confirmé en réunion.</b> À partir de janvier 2027, Athlétisme Québec impose une colonne « numéro de membre Uplifter » dans les fichiers des chronométreurs ; les non-affiliés reçoivent une adhésion journalière prise automatiquement à l'inscription, qui fournit ce numéro. Chaque résultat porte donc un identifiant : simple import, pas de rapprochement flou. Pour 2026 et l'historique (une quinzaine d'événements certifiés), l'effort minimal est accepté par le client. Seul point ouvert, laissé hors chiffrage : si une même personne peut recevoir plusieurs numéros via des adhésions journalières, une déduplication manuelle légère de profils sera nécessaire, à vérifier au démarrage dès obtention du token.</div>
 
     <!-- ===== 6. PHASAGE ET JALONS ===== -->
     <h2 id="jalons"><span class="h2n">6</span>Phasage et jalons</h2>
     <p class="lead">Chaque jalon est un incrément démontrable et arrêtable, adapté à la contrainte de subvention. Le périmètre s'ajuste par tiroirs pour tenir le budget.</p>
     <div class="card">
-      <div class="phase"><div class="p">Démarrage</div><div><b>En parallèle du socle.</b> Obtention du token Uplifter et vérification du comportement de l'API (limites de débit, adhésions journalières), calage des règles de la Coupe Québec trail et du périmètre des résultats, déclenchement du volet juridique Loi 25. Ne bloque pas le socle.</div><div class="d">au lancement</div></div>
+      <div class="phase"><div class="p">Démarrage</div><div><b>En parallèle du socle.</b> Obtention du token Uplifter et vérification des adhésions journalières, calage des règles de la Coupe Québec trail et du périmètre des résultats, déclenchement du volet juridique Loi 25. Ne bloque pas le socle.</div><div class="d">au lancement</div></div>
       <div class="phase"><div class="p">Palier 1</div><div><b>Socle.</b> Payload et front, authentification, access control, modèle de données, migration, hébergement Québec, contenu éditorial. Site déjà utilisable.</div><div class="d">socle livré</div></div>
-      <div class="phase"><div class="p">Palier 2</div><div><b>Fondations métier.</b> Identité Uplifter et calendrier Iskio, en parallèle. Espace membre et calendrier de référence.</div><div class="d">espace membre</div></div>
+      <div class="phase"><div class="p">Palier 2</div><div><b>Fondations métier.</b> Espace membre et liaison Uplifter, calendrier de référence, en parallèle.</div><div class="d">espace membre</div></div>
       <div class="phase"><div class="p">Palier 3</div><div><b>Valeur membre.</b> Classements, profil coureur, avantages. L'expérience réservée aux membres au complet.</div><div class="d">accès membre</div></div>
       <div class="phase"><div class="p">Palier 4</div><div><b>Sentiers.</b> Répertoire GPX, carte MapLibre, reconnaissance de surface. Brique découplée, déplaçable selon la priorité.</div><div class="d">sentiers</div></div>
       <div class="phase"><div class="p">Palier 5</div><div><b>Durcissement.</b> Audit de sécurité, conformité Loi 25, accessibilité, tests, documentation, formation, transfert.</div><div class="d">conforme</div></div>
@@ -452,8 +461,6 @@
     <div class="tiroir" data-tag="v2"><div><div class="t">Ambassadeurs de sentiers et QR codes</div><div class="desc">Parrainage de sentiers par des ambassadeurs et QR codes sur le terrain. Fonctions de confort, hors cœur membre.</div></div><div class="price todo">V2</div></div>
     <div class="tiroir" data-tag="v2"><div><div class="t">Graphiques d'évolution de performance</div><div class="desc">Courbes de progression sur le profil membre. Explicitement évoqué « plutôt pour une V2 » par le client.</div></div><div class="price todo">V2</div></div>
     <div class="tiroir" data-tag="later"><div><div class="t">Application mobile (Expo)</div><div class="desc">Application native iOS et Android en React Native (Expo), partageant le code du web. Suivi GPS des courses en temps réel et consultation des cartes et résultats hors ligne. Prolongement naturel de la plateforme, à explorer une fois la V1 en service.</div></div><div class="price todo">Phase ultérieure</div></div>
-    <div class="tiroir" data-tag="later"><div><div class="t">Archives historiques Iskio</div><div class="desc">Intégration des résultats anciens (jusqu'aux années 1930). Donnée froide, faible impact produit, à traiter après le rachat.</div></div><div class="price todo">Phase ultérieure</div></div>
-
     <!-- ===== 8. COÛTS DE FONCTIONNEMENT ===== -->
     <h2 id="couts"><span class="h2n">8</span>Coûts de fonctionnement</h2>
     <p class="lead">Frais d'exploitation à la charge d'Athlétisme Québec, distincts du développement. Ordres de grandeur en dollars canadiens, hébergement au Québec pour la Loi 25.</p>
@@ -475,9 +482,9 @@
     <h2 id="attention"><span class="h2n">9</span>Points d'attention</h2>
     <p class="lead">Ce que le dérisquage a révélé, présenté sans détour.</p>
     <div class="grid g2">
-      <div class="card c-pink"><h3 style="margin-top:0">Uplifter, le point à confirmer</h3><p style="font-size:13px;margin-bottom:0">Pas de connexion déléguée ni de notifications automatiques (confirmé). Deux questions restent ouvertes : les limites de débit de la synchronisation, et si les adhésions journalières donnent un numéro stable par personne. Elles ne se lèvent qu'avec un token de test. La réconciliation des résultats reste déterministe dès 2027 (numéro de membre imposé dans les fichiers) ; l'inconnue journalière n'affecte au pire qu'une déduplication manuelle légère de profils, laissée hors chiffrage. À noter : le lien de documentation fourni pointait vers une autre société homonyme, ce qui explique peut-être les difficultés de communication.</p></div>
+      <div class="card c-yellow"><h3 style="margin-top:0">Uplifter, documentation reçue</h3><p style="font-size:13px;margin-bottom:0">La documentation de l'API membre nous a été transmise le 21 juillet 2026 et lève l'essentiel des inconnues. Trois endpoints sont confirmés : vérification d'adhésion, détail des adhésions et de leurs statuts, et liste des membres modifiés depuis un horodatage. Pas de connexion déléguée ni de notification automatique : la synchronisation tire les changements plutôt que de les recevoir, ce qui évite d'interroger tous les membres et reste efficace. Les limites de débit sont documentées (5 requêtes par minute par numéro de membre) et ne portent que sur la vérification unitaire, pas sur la synchronisation. Restent deux points mineurs à lever au démarrage avec un token : l'identifiant d'instance d'Athlétisme Québec, et si les adhésions journalières donnent un numéro stable par personne. La réconciliation des résultats reste déterministe dès 2027 (numéro de membre imposé dans les fichiers) ; l'inconnue journalière n'affecte au pire qu'une déduplication manuelle légère de profils, laissée hors chiffrage.</p></div>
       <div class="card c-pink"><h3 style="margin-top:0">Données personnelles du prototype</h3><p style="font-size:13px;margin-bottom:0">Le prototype expose actuellement les noms et dates de naissance d'environ 12 000 coureurs via une clé publique. Cela présente les caractéristiques d'un incident de confidentialité. La qualification revient au conseil juridique d'Athlétisme Québec ; la remédiation technique est de notre côté et sera traitée en priorité.</p></div>
-      <div class="card c-yellow"><h3 style="margin-top:0">Rachat d'Iskio non finalisé</h3><p style="font-size:13px;margin-bottom:0">Pas encore d'accès à la base. Sans impact sur le calendrier : le calendrier public d'Iskio est accessible et sert de filet de sécurité pour construire le pipeline sans attendre le rachat.</p></div>
+      <div class="card c-yellow"><h3 style="margin-top:0">Reprise d'Iskio retirée du périmètre</h3><p style="font-size:13px;margin-bottom:0">À la demande d'Athlétisme Québec, lors de la réunion du 21 juillet 2026, le calendrier ne reprend plus les données d'Iskio : seuls les événements sanctionnés sont publiés, saisis directement dans le back-office par vos équipes. Le pipeline d'ingestion et la récupération d'Iskio sortent donc du chiffrage. Le projet ne dépend plus de l'issue du rachat, qui peut se conclure ou non sans effet sur le calendrier de livraison. Si la reprise du fonds Iskio revenait au périmètre, elle ferait l'objet d'un chiffrage complémentaire.</p></div>
       <div class="card c-yellow"><h3 style="margin-top:0">Consentement des résultats publics</h3><p style="font-size:13px;margin-bottom:0">La publication de résultats nominatifs relève du régime de consentement de la Loi 25. Point à cadrer avec le conseil juridique du client, notamment pour l'historique et les mineurs.</p></div>
     </div>
 
@@ -485,7 +492,7 @@
     <h2 id="suite"><span class="h2n">10</span>Prochaines étapes</h2>
     <p class="lead">Le cadrage est fait et ce document est le devis ferme. Il reste à le valider et à lancer la réalisation.</p>
     <div class="steps">
-      <div class="step"><div class="num">1</div><div class="txt"><b>Validation du devis.</b> Athlétisme Québec valide le périmètre et le budget. Facturation au temps réellement passé, plafonnée à plus 20 pour 100 du devis (79 800 $ au maximum) : TRACTR s'engage à livrer l'intégralité du périmètre défini et assume tout dépassement au-delà de ce plafond.</div><div class="when">cette semaine</div></div>
+      <div class="step"><div class="num">1</div><div class="txt"><b>Validation du devis.</b> Athlétisme Québec valide le périmètre et le budget. Facturation au temps réellement passé, plafonnée à plus 20 pour 100 du devis (57 840 $ au maximum) : TRACTR s'engage à livrer l'intégralité du périmètre défini et assume tout dépassement au-delà de ce plafond.</div><div class="when">cette semaine</div></div>
       <div class="step"><div class="num">2</div><div class="txt"><b>Accès et token Uplifter.</b> Athlétisme Québec transmet les accès (dépôt, base), sollicite le token auprès d'Uplifter et lance le volet juridique Loi 25. En parallèle du socle.</div><div class="when">au lancement</div></div>
       <div class="step"><div class="num">3</div><div class="txt"><b>Démarrage du Palier 1.</b> Mise en place du socle. Le comportement de l'API se vérifie dès réception du token, sans bloquer le socle.</div><div class="when">dès validation</div></div>
     </div>
@@ -536,7 +543,7 @@ if(tiroirFilters){
     tiroirs.forEach(t=>t.style.display=(f==='all'||t.dataset.tag===f)?'':'none');
   }));
 }
-window.addEventListener('beforeprint',()=>{document.querySelectorAll('details.fold').forEach(d=>d.open=true);document.querySelectorAll('.tiroir').forEach(t=>t.style.display='');});
+window.addEventListener('beforeprint',()=>{document.querySelectorAll('details.fold,details.scope').forEach(d=>d.open=true);document.querySelectorAll('.tiroir').forEach(t=>t.style.display='');});
 
 /* Schéma d'architecture interactif : connecteurs SVG + particules animées, coordonnées calculées depuis le DOM réel (robuste au responsive). */
 (function(){
